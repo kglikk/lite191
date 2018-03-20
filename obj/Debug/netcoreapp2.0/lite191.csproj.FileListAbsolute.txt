@@ -1,0 +1,10 @@
+C:\Users\VScode\lite191\bin\Debug\netcoreapp2.0\lite191.deps.json
+C:\Users\VScode\lite191\bin\Debug\netcoreapp2.0\lite191.runtimeconfig.json
+C:\Users\VScode\lite191\bin\Debug\netcoreapp2.0\lite191.runtimeconfig.dev.json
+C:\Users\VScode\lite191\bin\Debug\netcoreapp2.0\lite191.dll
+C:\Users\VScode\lite191\bin\Debug\netcoreapp2.0\lite191.pdb
+C:\Users\VScode\lite191\obj\Debug\netcoreapp2.0\lite191.csproj.CoreCompileInputs.cache
+C:\Users\VScode\lite191\obj\Debug\netcoreapp2.0\lite191.AssemblyInfoInputs.cache
+C:\Users\VScode\lite191\obj\Debug\netcoreapp2.0\lite191.AssemblyInfo.cs
+C:\Users\VScode\lite191\obj\Debug\netcoreapp2.0\lite191.dll
+C:\Users\VScode\lite191\obj\Debug\netcoreapp2.0\lite191.pdb
