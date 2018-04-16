@@ -9,7 +9,7 @@
     </div>
 
     <load-flow-parameters-form (change) = "executeLoadFlow()" ></load-flow-parameters-form>
-    
+    <button *ngIf="showButton" class="custom-file-download" id="file-download" (click)="export()" > <i class="fa fa-cloud-download"></i> Export Results (Excel) </button>
     <!-- widget grid -->
     <sa-widgets-grid>
 
@@ -17,9 +17,17 @@
       <div class="row">
         <article class="col-sm-12">
           <div class="table-responsive" style="width: 100%; height: 500px;">
-            <ag-grid-angular #agGrid style="width: 100%;height: 100%;" class="ag-fresh" [gridOptions]="gridOptions" [rowData]="rowData">
+            <ag-grid-angular #agGrid style="width: 100%;height: 50%;" class="ag-fresh" [gridOptions]="gridOptionsBusbars" [rowData]="rowDataBusbars"  >
+              
               <!--  [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" -->
             </ag-grid-angular>
+
+            
+
+            <ag-grid-angular #agGrid style="width: 100%;height: 50%;" class="ag-fresh" [gridOptions]="gridOptionsBranches" [rowData]="rowDataBranches" >
+            
+            </ag-grid-angular>
+          
           </div>
 
           <!--

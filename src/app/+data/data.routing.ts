@@ -6,6 +6,12 @@ import {RouterModule, Routes} from "@angular/router";
 export const routes:Routes = [
 
   {
+    path: 'buses',
+    loadChildren: 'app/+data/buses/buses.module#BusesModule',
+    data: {pageTitle: 'Buses'}
+  },
+
+  {
     path: 'externalgrids',
     loadChildren: 'app/+data/externalgrids/externalgrids.module#ExternalGridsModule',
     data: {pageTitle: 'External Grids'}

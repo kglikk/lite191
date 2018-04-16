@@ -365,7 +365,7 @@ export class OverheadLinesComponent {
 
   export(): void {
     //zbierz dane z serwera i zapisz do pliku xlsx
-    this.http.get('api/OverheadLine/GetBasedOnProject/' + this.projectId).subscribe((data: any) => {
+    this.http.get('api/OverheadLine/GetBasedOnProjectWithoutColumns/' + this.projectId).subscribe((data: any) => {
 
       // generate worksheet
       const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);

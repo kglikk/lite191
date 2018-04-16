@@ -15,13 +15,13 @@ import { GridOptions } from "ag-grid/main";
 
 @FadeInTop()
 @Component({
-  templateUrl: './externalgrids.component.html',
-  styleUrls: ['./externalgrids.component.css']
+  templateUrl: './buses.component.html',
+  styleUrls: ['./buses.component.css']
 
 })
-export class ExternalGridsComponent implements OnInit {
+export class BusesComponent implements OnInit {
 
-  public externalgrid: ExternalGrids[] = [];
+  public bus: Buses[] = [];
 
   gridOptions: GridOptions;
   rowData: Object; //było any[]
@@ -45,14 +45,13 @@ export class ExternalGridsComponent implements OnInit {
     let projectIdInside = this.projectId;
 
     this.projectService.currentProjectName.subscribe(projectName => this.projectName = projectName)
-    
+
 
     // we pass an empty gridOptions in, so we can grab the api out
     this.gridOptions = <GridOptions>{
 
       onGridReady: () => {
-        this.gridOptions.api.sizeColumnsToFit();  //make the currently visible columns fit the screen.
-        
+        this.gridOptions.api.sizeColumnsToFit(); //make the currently visible columns fit the screen.
       },
     };
 
@@ -63,7 +62,7 @@ export class ExternalGridsComponent implements OnInit {
         let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
         //jeśli zmieniona wartość jest ok     
         console.log("onCellValueChanged");
-        http.put('api/ExternalGrid/' + event.data.id, JSON.stringify({ ID: event.data.id, Name: event.data.name, NodeNo: event.data.nodeNo, NodeType: event.data.nodeType, VoltageAngle: event.data.voltageAngle, VoltageSetpoint: event.data.voltageSetpoint, ActivePower: event.data.activePower, ReactivePower: event.data.reactivePower, ProjectId: projectIdInside }), { headers }).subscribe();
+        http.put('api/Bus/' + event.data.id, JSON.stringify({ ID: event.data.id, Name: event.data.name, NodeNo: event.data.nodeNo, NominalVoltage: event.data.nominalVoltage, ProjectId: projectIdInside }), { headers }).subscribe();
       }, 
 
 
@@ -78,68 +77,35 @@ export class ExternalGridsComponent implements OnInit {
       stopEditingWhenGridLosesFocus: true,
 
       enableSorting: true,
-     // enableFilter: true,
+      enableFilter: true,
       enableColResize: true,
       animateRows: true,
       rowSelection: 'multiple',
-      //rowDragManaged: true,
       columnDefs: [
         // put the three columns into a group
         {
-          headerName: 'Load flow data', 
+          headerName: 'Load flow data',
           children: [
-            { headerName: "Name", field: "name", /* rowDrag: true, nie działa rowDrag width: 110*/ },
-            { headerName: "No. of node", hide: false, field: "nodeNo", /*width: 100,*/ type: "numericColumn" },
-            {
-              headerName: "Type of node", field: "nodeType", /*width: 100,*/ cellEditor: 'select',
-              cellEditorParams: {
-                values: [
-                  "SL",
-                  "PV",
-                  "PQ"
-                ]
-              }
-            },
-           
-            {
-              headerName: "Voltage angle [deg]", field: "voltageAngle", type: "numericColumn",
-              valueFormatter: this.numberValueFormatter,
-              valueSetter: this.numberValueSetter
-            },
-            {
-              headerName: "Voltage setpoint [p.u.]", field: "voltageSetpoint",/* width: 170, */ type: "numericColumn", 
-              valueFormatter: this.numberValueFormatter,
-              valueSetter: this.numberValueSetter
-            },
-            {
-              headerName: "Active power [MW]", field: "activePower", type: "numericColumn",
-              valueFormatter: this.numberValueFormatter,
-              valueSetter: this.numberValueSetter
-            },
-            {
-              headerName: "Reactive power [MVAr]", field: "reactivePower",/* width: 170,*/ type: "numericColumn",
-              valueFormatter: this.numberValueFormatter,
-              valueSetter: this.numberValueSetter
-            }
+            { headerName: "Name", field: "name", /*width: 110*/ },
+            { headerName: "Node No.", field: "nodeNo", type: "numericColumn" /*width: 110*/ },
+            { headerName: "Nominal Voltage [kV]", field: "nominalVoltage", /*width: 100,*/ type: "numericColumn" },
+            
           ]
         }
       ],
-      
       defaultColDef: {
         //enableCellChangeFlash: true,
-        
         // set every column width
         // width: 150,
         // make every column editable
         editable: true,
         // make every column use 'text' filter by default
         filter: 'text'
-      }, 
-      
+      },
     }
 
     //wczytaj dane z bazy danych bazując na nazwie projektu
-    http.get('api/ExternalGrid/GetBasedOnProject/' + this.projectId).subscribe(
+    http.get('api/Bus/GetBasedOnProject/' + this.projectId).subscribe(
       result => { this.rowData = result },
     );
 
@@ -176,25 +142,17 @@ export class ExternalGridsComponent implements OnInit {
       return false; // don't set invalid numbers!
     }
 
-    if (params.colDef.field == "voltageAngle") {
-      params.data.voltageAngle = params.newValue;
-    }
-    if (params.colDef.field == "voltageSetpoint") {
-      if (params.newValue < 0 || params.newValue > 1) {
-        alert("Should be between 0-1");
+  
+    if (params.colDef.field == "nominalVoltage") {
+      if (params.newValue < 0 ) {
+        alert("Should be greater than zero");
         return false; // don't set invalid numbers!
 
       } else {
-        params.data.voltageSetpoint = params.newValue;
+        params.data.nomVoltage = params.newValue;
       }
-
     }
-    if (params.colDef.field == "activePower") {
-      params.data.activePower = params.newValue;
-    }
-    if (params.colDef.field == "reactivePower") {
-      params.data.reactivePower = params.newValue;
-    }
+   
     return true;
     //w bazie danych SQL dane są aktualizowane w onCellValueChanged
   }
@@ -243,7 +201,7 @@ export class ExternalGridsComponent implements OnInit {
 
 
       for (var rowId = 0; rowId < rowIdArray.length; rowId++) {
-        this.http.delete('api/ExternalGrid/' + rowIdArray[rowId], { headers }).subscribe();
+        this.http.delete('api/Bus/' + rowIdArray[rowId], { headers }).subscribe();
       }
     } else { }
   }
@@ -253,21 +211,18 @@ export class ExternalGridsComponent implements OnInit {
 
     var newItem = {
       //id: 0,
-      name: "External Grid",
+      name: "Bus",
       nodeNo: 0,
-      nodeType: "SL",
-      voltageAngle: 0,
-      voltageSetpoint: 0,
-      activePower: 0,
-      reactivePower: 0,
+      nominalVoltage: 0,
+     
       //projectId: 2
     };
 
-    this.http.post('api/ExternalGrid', JSON.stringify({ ID: 0, Name: newItem.name, NodeNo: newItem.nodeNo, NodeType: newItem.nodeType, VoltageAngle: newItem.voltageAngle, VoltageSetpoint: newItem.voltageSetpoint, ActivePower: newItem.activePower, ReactivePower: newItem.reactivePower, ProjectId: this.projectId }), { headers }).subscribe((data: Object) => {
+    this.http.post('api/Bus', JSON.stringify({ ID: 0, Name: newItem.name, NodeNo: newItem.nodeNo, NominalVoltage: newItem.nominalVoltage,ProjectId: this.projectId }), { headers }).subscribe((data: Object) => {
       //Czekamy na wykonanie sie POST, zeby zrobic GET i WPISAC dane do tabeli we front end
 
       // po operacji post ustawiany jest specyficzny ID w bazie SQL, aby dany wiersz w front-end miał taki sam ID, musze sciagnac te dane do frontendu
-      this.http.get('api/ExternalGrid/GetBasedOnProject/' + this.projectId).subscribe(
+      this.http.get('api/Bus/GetBasedOnProject/' + this.projectId).subscribe(
         result => { this.rowData = result; },
       );
 
@@ -288,12 +243,8 @@ export class ExternalGridsComponent implements OnInit {
     // we expect the following columns to be present
     var columns = {
       'A': 'name',
-      'B': 'nodeType',
-      'C': 'nodeNo',
-      'D': 'voltageAngle',
-      'E': 'voltageSetpoint',
-      'F': 'activePower',
-      'G': 'reactivePower'
+      'B': 'nodeNo',
+      'C': 'nomVoltage',         
     };
     
     var rowData = [];
@@ -323,16 +274,11 @@ export class ExternalGridsComponent implements OnInit {
       };
     
 
-      /*
-      this.http.post('api/ExternalGrid', resultRow, { headers }).subscribe();
-      var res = this.gridOptions.api.updateRowData({ add: [resultRow] });
-      this.printResult(res);
-      */
-     this.http.post('api/ExternalGrid',resultRow , { headers }).subscribe((data: Object) => {
+     this.http.post('api/Bus',resultRow , { headers }).subscribe((data: Object) => {
       //Czekamy na wykonanie sie POST, zeby zrobic GET i WPISAC dane do tabeli we front end
 
       // po operacji post ustawiany jest specyficzny ID w bazie SQL, aby dany wiersz w front-end miał taki sam ID, musze sciagnac te dane do frontendu
-      this.http.get('api/ExternalGrid/GetBasedOnProject/' + this.projectId).subscribe(
+      this.http.get('api/Bus/GetBasedOnProject/' + this.projectId).subscribe(
         result => { this.rowData = result; },
       );
 
@@ -361,7 +307,7 @@ export class ExternalGridsComponent implements OnInit {
 
   export(): void {
     //zbierz dane z serwera i zapisz do pliku xlsx
-    this.http.get('api/ExternalGrid/GetBasedOnProjectWithoutColumns/' + this.projectId).subscribe((data: any) => {
+    this.http.get('api/Bus/GetBasedOnProjectWithoutColumns/' + this.projectId).subscribe((data: any) => {
       // generate worksheet
       const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
 
@@ -371,19 +317,15 @@ export class ExternalGridsComponent implements OnInit {
 
       /* save to file */
       //XLSX.writeFile(wb, 'externalgrid_'+this.projectName+'.xlsx');
-      XLSX.writeFile(wb, 'externalgrid_' + this.projectName + '.xlsx');
+      XLSX.writeFile(wb, 'bus_' + this.projectName + '.xlsx');
    });
   }
 }
 
-export interface ExternalGrids {
+export interface Buses {
   id: number;
   name: string;
   nodeNo: number;
-  nodeType: string;
-  voltageAngle: number;
-  voltageSetpoint: number;
-  activePower: number;
-  reactivePower: number;
+  nominalVoltage: number;
   projectId: number
 }

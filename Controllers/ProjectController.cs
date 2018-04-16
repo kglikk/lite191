@@ -137,7 +137,7 @@ namespace lite191.Controllers
             ExternalGrid[] extgrids = await _context.ExternalGrids.Where(m => m.ProjectId == id).ToArrayAsync();  
             OverheadLine[] ovheads = await _context.OverheadLines.Where(m => m.ProjectId == id).ToArrayAsync();  
             TwoPhaseTransformer[] twophasetrafo = await _context.TwoPhaseTransformers.Where(m => m.ProjectId == id).ToArrayAsync();  
-           
+            Bus[] buses = await _context.Buses.Where(m => m.ProjectId == id).ToArrayAsync();  
             if (project == null)  
             {  
                 return NotFound();  
@@ -148,6 +148,7 @@ namespace lite191.Controllers
             _context.ExternalGrids.RemoveRange(extgrids);
             _context.OverheadLines.RemoveRange(ovheads);  
             _context.TwoPhaseTransformers.RemoveRange(twophasetrafo);  
+            _context.Buses.RemoveRange(buses);  
 
             await _context.SaveChangesAsync();
               

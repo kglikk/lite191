@@ -19,6 +19,8 @@ namespace lite191.Models
         public DbSet<OverheadLine> OverheadLines { get; set; }
         public DbSet<TwoPhaseTransformer> TwoPhaseTransformers { get; set; }
 
+        public DbSet<Bus> Buses { get; set; }
+
         public DbSet<Project> Projects { get; set; }
 
         //zamiania z nazwy mnogiej na pojedynczą w bazie
@@ -28,6 +30,8 @@ namespace lite191.Models
             modelBuilder.Entity<OverheadLine>().ToTable("OverheadLine");
             modelBuilder.Entity<TwoPhaseTransformer>().ToTable("TwoPhaseTransformer");
             modelBuilder.Entity<Project>().ToTable("Project");
+            modelBuilder.Entity<Bus>().ToTable("Bus");
+
         }
     }
 }

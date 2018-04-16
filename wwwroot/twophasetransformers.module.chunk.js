@@ -396,7 +396,7 @@ let TwoPhaseTransformersComponent = class TwoPhaseTransformersComponent {
     }
     export() {
         //zbierz dane z serwera i zapisz do pliku xlsx
-        this.http.get('api/TwoPhaseTransformer/GetBasedOnProject/' + this.projectId).subscribe((data) => {
+        this.http.get('api/TwoPhaseTransformer/GetBasedOnProjectWithoutColumns/' + this.projectId).subscribe((data) => {
             // generate worksheet
             const ws = __WEBPACK_IMPORTED_MODULE_0_xlsx__["utils"].json_to_sheet(data);
             // generate workbook and add the worksheet 

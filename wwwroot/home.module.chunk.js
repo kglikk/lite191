@@ -56,7 +56,7 @@ let HomeComponent = class HomeComponent {
         //jeśli jesteśmy zalogowani
         if (this.profile != "null") {
             //this.http.get<Array<Project>>('/api/Project/Get')
-            this.projectService.getProjects().map(returnedobjects => returnedobjects.filter(res => res.name == "IEEE 3 bus")).subscribe(res => {
+            this.projectService.getProjects().map(returnedobjects => returnedobjects.filter(res => res.name == "3 bus")).subscribe(res => {
                 console.log("ID " + res[0].id);
                 this.projectService.updateProject(res[0].id, this.profile.sub);
             });

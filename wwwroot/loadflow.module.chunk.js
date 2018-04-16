@@ -34,10 +34,28 @@ LoadFlowRoutingModule = __decorate([
 
 /***/ }),
 
+/***/ "../../../../../src/app/+calculation/loadflow/loadflow.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".column-group-g {\r\n    background-color: #1b6d85;\r\n}\r\n.column-group-c {\r\n    background-color: #67b168;\r\n}\r\n.custom-file-download {\r\n    border: none;\r\n    padding: 0;\r\n    background: none;\r\n  \r\n}\r\n.rag-red {\r\n    background-color: lightcoral;\r\n}\r\n.rag-green {\r\n    background-color: lightgreen;\r\n}\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
 /***/ "../../../../../src/app/+calculation/loadflow/loadflow.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- MAIN CONTENT -->\n\n  <div *ngIf=\"show;else othercontent\" id=\"content\">\n\n    <div class=\"row\">\n      <!-- <sa-big-breadcrumbs [items]=\"['Load Flow Calculation']\" icon=\"table\" class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\"></sa-big-breadcrumbs> -->\n      <sa-big-breadcrumbs [items]=\"['Load Flow Calculation']\" icon=\"table\" class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\"></sa-big-breadcrumbs>\n      <!-- <sa-stats></sa-stats> -->\n    </div>\n\n    <load-flow-parameters-form (change) = \"executeLoadFlow()\" ></load-flow-parameters-form>\n    \n    <!-- widget grid -->\n    <sa-widgets-grid>\n\n\n      <div class=\"row\">\n        <article class=\"col-sm-12\">\n          <div class=\"table-responsive\" style=\"width: 100%; height: 500px;\">\n            <ag-grid-angular #agGrid style=\"width: 100%;height: 100%;\" class=\"ag-fresh\" [gridOptions]=\"gridOptions\" [rowData]=\"rowData\">\n              <!--  [columnDefs]=\"columnDefs\" [defaultColDef]=\"defaultColDef\" -->\n            </ag-grid-angular>\n          </div>\n\n          <!--\n          <sa-widget [editbutton]=\"false\" color=\"darken\">\n            <header>\n              <span class=\"widget-icon\">\n                <i class=\"fa fa-table\"></i>\n              </span>\n\n              <h2>Load Flow results</h2>\n            </header>\n            <div>\n              <div class=\"widget-body no-padding\">\n                 <alert type=\"info\" class=\"no-margin fade in\" dismisser=\"\"> \n                <i class=\"fa-fw fa fa-info\"></i>\n                Adds zebra-striping to table row within <code>&lt;table&gt;</code> by adding the <code>.table-striped</code>\n                with the base class\n              </alert>\n           \n            \n\n              </div>\n            </div>\n          </sa-widget>\n           -->\n        </article>\n\n\n      </div>\n\n    </sa-widgets-grid>\n  </div>\n\n <ng-template #othercontent>Please open or create project in the Home tab first</ng-template>"
+module.exports = "<!-- MAIN CONTENT -->\n\n  <div *ngIf=\"show;else othercontent\" id=\"content\">\n\n    <div class=\"row\">\n      <!-- <sa-big-breadcrumbs [items]=\"['Load Flow Calculation']\" icon=\"table\" class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\"></sa-big-breadcrumbs> -->\n      <sa-big-breadcrumbs [items]=\"['Load Flow Calculation']\" icon=\"table\" class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\"></sa-big-breadcrumbs>\n      <!-- <sa-stats></sa-stats> -->\n    </div>\n\n    <load-flow-parameters-form (change) = \"executeLoadFlow()\" ></load-flow-parameters-form>\n    <button *ngIf=\"showButton\" class=\"custom-file-download\" id=\"file-download\" (click)=\"export()\" > <i class=\"fa fa-cloud-download\"></i> Export Results (Excel) </button>\n    <!-- widget grid -->\n    <sa-widgets-grid>\n\n\n      <div class=\"row\">\n        <article class=\"col-sm-12\">\n          <div class=\"table-responsive\" style=\"width: 100%; height: 500px;\">\n            <ag-grid-angular #agGrid style=\"width: 100%;height: 50%;\" class=\"ag-fresh\" [gridOptions]=\"gridOptionsBusbars\" [rowData]=\"rowDataBusbars\"  >\n              \n              <!--  [columnDefs]=\"columnDefs\" [defaultColDef]=\"defaultColDef\" -->\n            </ag-grid-angular>\n\n            \n\n            <ag-grid-angular #agGrid style=\"width: 100%;height: 50%;\" class=\"ag-fresh\" [gridOptions]=\"gridOptionsBranches\" [rowData]=\"rowDataBranches\" >\n            \n            </ag-grid-angular>\n          \n          </div>\n\n          <!--\n          <sa-widget [editbutton]=\"false\" color=\"darken\">\n            <header>\n              <span class=\"widget-icon\">\n                <i class=\"fa fa-table\"></i>\n              </span>\n\n              <h2>Load Flow results</h2>\n            </header>\n            <div>\n              <div class=\"widget-body no-padding\">\n                 <alert type=\"info\" class=\"no-margin fade in\" dismisser=\"\"> \n                <i class=\"fa-fw fa fa-info\"></i>\n                Adds zebra-striping to table row within <code>&lt;table&gt;</code> by adding the <code>.table-striped</code>\n                with the base class\n              </alert>\n           \n            \n\n              </div>\n            </div>\n          </sa-widget>\n           -->\n        </article>\n\n\n      </div>\n\n    </sa-widgets-grid>\n  </div>\n\n <ng-template #othercontent>Please open or create project in the Home tab first</ng-template>"
 
 /***/ }),
 
@@ -49,6 +67,8 @@ module.exports = "<!-- MAIN CONTENT -->\n\n  <div *ngIf=\"show;else othercontent
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_app_services_show_data_service__ = __webpack_require__("../../../../../src/app/services/show-data.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm2015/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_http__ = __webpack_require__("../../../common/esm2015/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_xlsx__ = __webpack_require__("../../../../xlsx/xlsx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_xlsx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_xlsx__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -64,24 +84,32 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 
 
 
+
 let LoadFlowComponent = class LoadFlowComponent {
     // showResult: boolean = false;
     constructor(http, showData, baseUrl) {
-        //  this.rowData = JSON.parse(localStorage.getItem('dane'));
         this.http = http;
         this.showData = showData;
         this.loadflow = [];
+        //  this.rowData = JSON.parse(localStorage.getItem('dane'));
+        this.showButton = false;
         //this.showResult = false;
         //czy pokazywać dane czy nie w zależności od tego czy projekt jest otwarty
         this.showData.currentShow.subscribe(show => this.show = show);
         // we pass an empty gridOptions in, so we can grab the api out
-        this.gridOptions = {
+        this.gridOptionsBusbars = {
             onGridReady: () => {
-                this.gridOptions.api.sizeColumnsToFit(); //make the currently visible columns fit the screen.
+                this.gridOptionsBusbars.api.sizeColumnsToFit(); //make the currently visible columns fit the screen.
                 // show 'no rows' overlay              
             },
         };
-        this.gridOptions = {
+        this.gridOptionsBranches = {
+            onGridReady: () => {
+                this.gridOptionsBranches.api.sizeColumnsToFit(); //make the currently visible columns fit the screen.
+                // show 'no rows' overlay              
+            },
+        };
+        this.gridOptionsBusbars = {
             // singleClickEdit: false,
             stopEditingWhenGridLosesFocus: true,
             overlayLoadingTemplate: '<span class="ag-overlay-loading-center">Please click "Calculate" button to see results </span>',
@@ -93,47 +121,132 @@ let LoadFlowComponent = class LoadFlowComponent {
             columnDefs: [
                 // put the three columns into a group
                 {
-                    headerName: 'Load flow data',
+                    headerName: 'Results - busbars',
+                    groupId: "LF_Busbars",
                     children: [
                         {
                             headerName: "Bus no.", field: "busNo", type: "numericColumn"
                         },
                         {
-                            headerName: "Voltage [kV]", field: "resultU", type: "numericColumn",
+                            headerName: "Voltage [kV]", field: "resultU", type: "numericColumn", valueFormatter: this.numberFormatter
+                            /*,  valueParser: this.numberParser */
                         },
                         {
-                            headerName: "Angle [degrees]", field: "resultSigma", type: "numericColumn",
-                        }
+                            headerName: "Voltage [pu]", field: "resultUpu", type: "numericColumn", valueFormatter: this.numberFormatter,
+                            cellStyle: function (params) {
+                                if (params.value > '0.95' && params.value < '1.05') {
+                                    return { backgroundColor: 'lightgreen' };
+                                }
+                                if ((params.value > '0.9' && params.value <= '0.95') || (params.value >= '1.05' && params.value < '1.1')) {
+                                    return { backgroundColor: 'lightsalmon' };
+                                }
+                                if (params.value <= '0.9' || params.value >= '1.1') {
+                                    return { backgroundColor: 'lightcoral' };
+                                }
+                            }
+                        },
+                        {
+                            headerName: "Angle [degrees]", field: "resultSigma", type: "numericColumn", valueFormatter: this.numberFormatter
+                        },
+                    ]
+                },
+            ],
+        };
+        this.gridOptionsBranches = {
+            // singleClickEdit: false,
+            stopEditingWhenGridLosesFocus: true,
+            overlayLoadingTemplate: '<span class="ag-overlay-loading-center">Please click "Calculate" button to see results </span>',
+            enableSorting: true,
+            enableFilter: true,
+            enableColResize: true,
+            animateRows: true,
+            rowSelection: 'multiple',
+            columnDefs: [
+                // put the three columns into a group                               
+                {
+                    headerName: 'Results - branch elements',
+                    groupId: "LF_Branches",
+                    children: [
+                        {
+                            headerName: "Start bus number", field: "busNoStart", type: "numericColumn", columnGroupShow: 'open'
+                        },
+                        {
+                            headerName: "End bus number", field: "busNoEnd", type: "numericColumn", columnGroupShow: 'open'
+                        },
+                        {
+                            headerName: "Active power loss [kW]", field: "resultPloss", type: "numericColumn", columnGroupShow: 'open', valueFormatter: this.numberFormatter
+                        },
+                        {
+                            headerName: "Reactive power loss [MVar]", field: "resultQloss", type: "numericColumn", columnGroupShow: 'open', valueFormatter: this.numberFormatter
+                        },
+                        {
+                            headerName: "Current Iij [kA]", field: "resultIload_i", /*width: 100,*/ type: "numericColumn", columnGroupShow: 'open', valueFormatter: this.numberFormatter
+                        },
+                        {
+                            headerName: "Current Iji [kA]", field: "resultIload_j", /*width: 100,*/ type: "numericColumn", columnGroupShow: 'open', valueFormatter: this.numberFormatter
+                        },
                     ]
                 }
             ],
-            defaultColDef: {
-                //enableCellChangeFlash: true,
-                // set every column width
-                width: 150,
-                // make every column editable
-                editable: false,
-                // make every column use 'text' filter by default
-                filter: 'text'
-            },
         };
-        /*
-        http.get(baseUrl + 'api/LoadFlowController/LoadFlow').subscribe(result => {
-            this.rowData = result.json(); //as LoadFlow[]
-        }); */
-        //, error => console.error(error)
     }
+    numberFormatter(params) {
+        var result;
+        //w przypadku bardzo małych liczb wyświetla wartość 0 
+        if (params.value > -0.00000000001 && params.value < 0.00000000001) {
+            result = 0;
+            return result.toFixed(3);
+        }
+        else {
+            return params.value.toFixed(3); //zaokragla do trzeciej liczby po przecinku
+            /*
+            Math.floor(params.value)
+            .toString()
+            .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+            */
+        }
+    }
+    /*
+  formatNumber(number) {
+      return Math.floor(number)
+        .toString()
+        .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  } */
+    /*
+   numberParser(params) {
+        return Number(params.newValue);
+      }*/
     executeLoadFlow() {
         this.http.get('api/LoadFlow/Get').subscribe(result => {
-            this.rowData = result; //as LoadFlow[]
+            this.rowDataBusbars = result; //as LoadFlow[]
+            this.rowDataBranches = result;
+            this.showButton = true;
             //  localStorage.setItem('dane', JSON.stringify(result)); 
         });
         //  this.showResult = true;
     }
+    export() {
+        //zbierz dane z serwera i zapisz do pliku xlsx
+        const ws = __WEBPACK_IMPORTED_MODULE_3_xlsx__["utils"].json_to_sheet(this.rowDataBusbars);
+        // generate workbook and add the worksheet 
+        const wb = __WEBPACK_IMPORTED_MODULE_3_xlsx__["utils"].book_new();
+        __WEBPACK_IMPORTED_MODULE_3_xlsx__["utils"].book_append_sheet(wb, ws, 'Sheet1');
+        /* save to file */
+        //XLSX.writeFile(wb, 'externalgrid_'+this.projectName+'.xlsx');
+        __WEBPACK_IMPORTED_MODULE_3_xlsx__["writeFile"](wb, 'bus_results_.xlsx'); //' + this.projectName + '.xlsx');
+        const wsheet = __WEBPACK_IMPORTED_MODULE_3_xlsx__["utils"].json_to_sheet(this.rowDataBranches);
+        // generate workbook and add the worksheet 
+        const wbook = __WEBPACK_IMPORTED_MODULE_3_xlsx__["utils"].book_new();
+        __WEBPACK_IMPORTED_MODULE_3_xlsx__["utils"].book_append_sheet(wb, ws, 'Sheet2');
+        /* save to file */
+        //XLSX.writeFile(wb, 'externalgrid_'+this.projectName+'.xlsx');
+        __WEBPACK_IMPORTED_MODULE_3_xlsx__["writeFile"](wb, 'branch_results_.xlsx'); //' + this.projectName + '.xlsx');
+    }
 };
 LoadFlowComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
-        template: __webpack_require__("../../../../../src/app/+calculation/loadflow/loadflow.component.html")
+        template: __webpack_require__("../../../../../src/app/+calculation/loadflow/loadflow.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/+calculation/loadflow/loadflow.component.css")]
     }),
     __param(2, Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Inject"])('BASE_URL')),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_0_app_services_show_data_service__["a" /* ShowDataService */], String])

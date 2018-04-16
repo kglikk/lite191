@@ -36,6 +36,14 @@ namespace lite191.Controllers
            
         }
 
+        [HttpGet("[action]/{id}")]
+         public IActionResult GetBasedOnProjectWithoutColumns([FromRoute] int id) // [FromRoute] int projectid [FromRoute] 
+        {             
+            var item = _context.TwoPhaseTransformers.Where(e => e.ProjectId == id).Select(e => new { e.Name, e.HVNodeNo, e.LVNodeNo, e.HVVoltageRated, e.LVVoltageRated, e.ApparentPowerRated, e.LoadLossesRated, e.ShortCircuitVoltage });            
+            return new ObjectResult(item);     
+           
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] TwoPhaseTransformer twophasetransformer)  
         {  

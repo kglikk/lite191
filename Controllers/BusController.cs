@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,60 +8,69 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace lite191.Controllers
 {
-    
-    [Route("api/[controller]")]
-    public class OverheadLineController : Controller
+
+     [Route("api/[controller]")] 
+    public class BusController : Controller
     {
+        
         private readonly DataContext _context;
 
-        public OverheadLineController(DataContext context)
+        public BusController(DataContext context)
         {
             _context = context;
         }
 
         // GET: api/values
         [HttpGet("[action]")]
-        public IEnumerable<OverheadLine> Get()
+        //[Authorize] 
+               
+        public IEnumerable<Bus> Get()
         {
-            return _context.OverheadLines;
-        }
+            return _context.Buses;
+        } 
 
-        [HttpGet("[action]/{id}")]
+
+        // GET: api/values
+        // [HttpGet("{id}")]
+        //[HttpGet("[action]")]
+        //[Authorize]  
+        [HttpGet("[action]/{id}")]            
         public IActionResult GetBasedOnProject([FromRoute] int id) // [FromRoute] int projectid [FromRoute] 
         {             
-            var item = _context.OverheadLines.Where(e => e.ProjectId == id);            
-            return new ObjectResult(item);     
-           
+            var item = _context.Buses.Where(e => e.ProjectId == id);
+                   
+            return new ObjectResult(item); 
         }
 
         [HttpGet("[action]/{id}")]            
         public IActionResult GetBasedOnProjectWithoutColumns([FromRoute] int id) // [FromRoute] int projectid [FromRoute] 
         {             
-            var item = _context.OverheadLines.Where(e => e.ProjectId == id).Select(e => new { e.Name, e.StartNodeNo, e.EndNodeNo, e.Length, e.UnitaryResistance, e.UnitaryReactance, e.UnitaryCapacitance });
+            var item = _context.Buses.Where(e => e.ProjectId == id).Select(e => new { e.Name, e.NodeNo, e.NominalVoltage });
                            
             return new ObjectResult(item); 
         }
 
-       
+        // POST: api/StudentMastersAPI  
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] OverheadLine overheadLine)  
+        public async Task<IActionResult> Post([FromBody] Bus bus)  
         {  
             if (!ModelState.IsValid)  
             {  
                 return BadRequest(ModelState);  
             }  
   
-            _context.OverheadLines.Add(overheadLine);  
+            _context.Buses.Add(bus);  
             try  
             {  
                 await _context.SaveChangesAsync();  
             }  
             catch (DbUpdateException)  
             {  
-                if (OvHeadExists(overheadLine.ID))  
+                if (BusExists(bus.ID))  
                 {  
                     return new StatusCodeResult(StatusCodes.Status409Conflict);  
                 }  
@@ -70,29 +79,29 @@ namespace lite191.Controllers
                     throw;  
                 }  
             }  
-            return CreatedAtAction("Get", new { id = overheadLine.ID }, overheadLine);  
+            return CreatedAtAction("Get", new { id = bus.ID }, bus);  
         }
 
-        private bool OvHeadExists(int id)  
+        private bool BusExists(int id)  
         {  
-            return _context.OverheadLines.Any(e => e.ID == id);  
+            return _context.Buses.Any(e => e.ID == id);  
         }
 
-        // PUT: api/OverheadLineController/5  
+        // PUT: api/ExternalGridController/5  
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] OverheadLine overheadLine)  
+        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] Bus bus)  
         {  
             if (!ModelState.IsValid)  
             {  
                 return BadRequest(ModelState);  
             }  
   
-            if (id != overheadLine.ID)  
+            if (id != bus.ID)  
             {  
                 return BadRequest();  
             }  
   
-            _context.Entry(overheadLine).State = EntityState.Modified;  
+            _context.Entry(bus).State = EntityState.Modified;  
   
             try  
             {  
@@ -100,7 +109,7 @@ namespace lite191.Controllers
             }  
             catch (DbUpdateConcurrencyException)  
             {  
-                if (!OvHeadExists(id))  
+                if (!BusExists(id))  
                 {  
                     return NotFound();  
                 }  
@@ -122,23 +131,19 @@ namespace lite191.Controllers
                 return BadRequest(ModelState);  
             }  
   
-            OverheadLine overheadLine = await _context.OverheadLines.SingleOrDefaultAsync(m => m.ID == id);  
-            if (overheadLine == null)  
-            { 
+            Bus bus = await _context.Buses.SingleOrDefaultAsync(m => m.ID == id);  
+            if (bus == null)  
+            {  
                 return NotFound();  
             }  
   
-            _context.OverheadLines.Remove(overheadLine);  
+            _context.Buses.Remove(bus);  
             await _context.SaveChangesAsync();
               
-            return Ok(overheadLine);  
-        }         
+            return Ok(bus);  
+        } 
 
 
-
-
-
-
+        
     }
-
 }

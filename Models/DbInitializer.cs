@@ -23,7 +23,7 @@ namespace lite191.Models
 
             var projects = new Project[]
             {
-                 new Project{Name="IEEE 3 bus"},
+                 new Project{Name="3 bus"},
                              
             };
 
@@ -43,13 +43,28 @@ namespace lite191.Models
             context.SaveChanges();
 
             
-            var projekt3bus = context.Projects.Where(Project => Project.Name == "IEEE 3 bus").First();
+            var projekt3bus = context.Projects.Where(Project => Project.Name == "3 bus").First();
+
+
+             var buses = new Bus[]
+            {
+                 new Bus{Name="Bus1", NodeNo=0, NominalVoltage = 60, ProjectId = projekt3bus.ID},
+                 new Bus{Name="Bus2", NodeNo=1, NominalVoltage = 60, ProjectId = projekt3bus.ID},
+                 new Bus{Name="Bus3", NodeNo=2, NominalVoltage = 60, ProjectId = projekt3bus.ID}
+            };
+            
+
+            foreach (Bus s in buses)
+            {
+                context.Buses.Add(s);
+            }
+            context.SaveChanges();
 
             var externalgrids = new ExternalGrid[]
             {
                  new ExternalGrid{Name="ExtGrid1", NodeNo=0, NodeType="SL", VoltageAngle=0, VoltageSetpoint=1, ProjectId = projekt3bus.ID  },
                  new ExternalGrid{Name="ExtGrid2", NodeNo=1, NodeType="PV", VoltageAngle=0, VoltageSetpoint=1, ActivePower=60, ProjectId = projekt3bus.ID},
-                 new ExternalGrid{Name="ExtGrid2", NodeNo=2, NodeType="PQ", VoltageAngle=0, ActivePower=-80, ReactivePower = -60, ProjectId = projekt3bus.ID}
+                 new ExternalGrid{Name="ExtGrid3", NodeNo=2, NodeType="PQ", VoltageAngle=0, ActivePower=-80, ReactivePower = -60, ProjectId = projekt3bus.ID}
             };
             
 
@@ -65,7 +80,7 @@ namespace lite191.Models
             {
                  new OverheadLine{Name="OHL1", StartNodeNo=0, EndNodeNo=1, Length=1, UnitaryResistance=0, UnitaryReactance =18, UnitaryCapacitance=0, ProjectId = projekt3bus.ID },
                  new OverheadLine{Name="OHL2", StartNodeNo=0, EndNodeNo=2, Length=1, UnitaryResistance=0, UnitaryReactance =7.2, UnitaryCapacitance=0, ProjectId = projekt3bus.ID },
-                 new OverheadLine{Name="OHL3", StartNodeNo=1, EndNodeNo=2, Length=1, UnitaryResistance=0, UnitaryReactance =9, UnitaryCapacitance=0, ProjectId = projekt3bus.ID }
+                 new OverheadLine{Name="OHL3", StartNodeNo=1, EndNodeNo=2, Length=1, UnitaryResistance=0, UnitaryReactance =9, UnitaryCapacitance=277.8, ProjectId = projekt3bus.ID }
             };
             
 

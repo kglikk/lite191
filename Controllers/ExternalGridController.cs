@@ -43,12 +43,19 @@ namespace lite191.Controllers
         [HttpGet("[action]/{id}")]            
         public IActionResult GetBasedOnProject([FromRoute] int id) // [FromRoute] int projectid [FromRoute] 
         {             
-            var item = _context.ExternalGrids.Where(e => e.ProjectId == id);            
-            return new ObjectResult(item);     
-           
+            var item = _context.ExternalGrids.Where(e => e.ProjectId == id);
+                   
+            return new ObjectResult(item); 
         }
 
-    
+        [HttpGet("[action]/{id}")]            
+        public IActionResult GetBasedOnProjectWithoutColumns([FromRoute] int id) // [FromRoute] int projectid [FromRoute] 
+        {             
+            var item = _context.ExternalGrids.Where(e => e.ProjectId == id).Select(e => new { e.Name, e.NodeType, e.NodeNo, e.VoltageAngle, e.VoltageSetpoint, e.ActivePower, e.ReactivePower });
+                           
+            return new ObjectResult(item); 
+        }
+
         // POST: api/StudentMastersAPI  
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ExternalGrid extgrid)  

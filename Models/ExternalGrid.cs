@@ -17,7 +17,7 @@ namespace lite191.Models
         public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Type of node")]
+        [Display(Name = "Type")]
         //[CannotBeRed(ErrorMessage = "PQ is not allowed!")]
         public string NodeType { get; set; }
 

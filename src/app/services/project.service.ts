@@ -36,7 +36,7 @@ export class ProjectService {
 
   updateProject(projectId: number, userid: string) {
 
-    this.http.put('api/Project/Put/' + projectId, JSON.stringify({ ID: projectId, LastUpdate: "0001-01-01T00:00:00", Name: "IEEE 3 bus", UserId: userid }), { headers: this.headers }).subscribe();
+    this.http.put('api/Project/Put/' + projectId, JSON.stringify({ ID: projectId, LastUpdate: "0001-01-01T00:00:00", Name: "3 bus", UserId: userid }), { headers: this.headers }).subscribe();
 
   }
 

@@ -1,13 +1,13 @@
-webpackJsonp(["externalgrids.module"],{
+webpackJsonp(["buses.module"],{
 
-/***/ "../../../../../src/app/+data/externalgrids/externalgrids-routing.module.ts":
+/***/ "../../../../../src/app/+data/buses/buses-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ExternalGridsRoutingModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BusesRoutingModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm2015/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm2015/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_data_externalgrids_externalgrids_component__ = __webpack_require__("../../../../../src/app/+data/externalgrids/externalgrids.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__buses_component__ = __webpack_require__("../../../../../src/app/+data/buses/buses.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -19,22 +19,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 const routes = [{
         path: '',
-        component: __WEBPACK_IMPORTED_MODULE_2_app_data_externalgrids_externalgrids_component__["a" /* ExternalGridsComponent */],
+        component: __WEBPACK_IMPORTED_MODULE_2__buses_component__["a" /* BusesComponent */],
     }];
-let ExternalGridsRoutingModule = class ExternalGridsRoutingModule {
+let BusesRoutingModule = class BusesRoutingModule {
 };
-ExternalGridsRoutingModule = __decorate([
+BusesRoutingModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */].forChild(routes)],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */]]
     })
-], ExternalGridsRoutingModule);
+], BusesRoutingModule);
 
 
 
 /***/ }),
 
-/***/ "../../../../../src/app/+data/externalgrids/externalgrids.component.css":
+/***/ "../../../../../src/app/+data/buses/buses.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
@@ -52,18 +52,18 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ "../../../../../src/app/+data/externalgrids/externalgrids.component.html":
+/***/ "../../../../../src/app/+data/buses/buses.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- MAIN CONTENT -->\n<div *ngIf=\"show;else otherContent\" id=\"content\">\n\n  <div class=\"row\">\n    <sa-big-breadcrumbs [items]=\"['Data', 'External Grids']\" icon=\"table\" class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\"></sa-big-breadcrumbs>\n    <!-- <sa-stats></sa-stats> -->\n  </div>\n  <div class=\"row\">\n    <div class='col-sm-12' style=\"margin-top: 10px; margin-bottom: 10px\">\n      <button type=\"button\" class=\"btn btn-primary\" (click)=onAddRow()>Add Row</button>\n      <button type=\"button\" class=\"btn btn-danger\" (click)=removeSelected()>Delete selected</button>\n      <!--\n      <button type=\"button\" class=\"btn btn-basic\" (click)=importExcel()>Import Excel</button>\n      -->\n      <label for=\"file-upload\" class=\"custom-file-upload\">\n        <i class=\"fa fa-cloud-upload\"></i> Import Data (Excel)\n      </label>\n      <input id=\"file-upload\" type=\"file\" (change)=\"onFileUpload($event)\" multiple=\"false\"/>\n\n      <!--\n      <label for=\"file-download\" class=\"custom-file-download\">        \n      </label>\n    -->\n      <button class=\"custom-file-download\" id=\"file-download\" (click)=\"export()\" > <i class=\"fa fa-cloud-download\"></i> Export Data (Excel) </button>\n    <!--  <input type=\"file\" class=\"btn btn-basic\" (change)=\"onFileChange($event)\" multiple=\"false\" />-->\n      <!--\n      <import-file></import-file>\n      -->\n    </div>\n  </div>\n\n  <!-- widget grid -->\n  <sa-widgets-grid>\n\n\n    <div class=\"row\">\n      <article class=\"col-sm-12\">\n\n        <div class=\"table-responsive\" style=\"width: 100%; height: 500px;\">\n          <ag-grid-angular #agGrid style=\"width: 100%;height: 100%;\" class=\"ag-fresh\" [gridOptions]=\"gridOptions\" [rowData]=\"rowData\">\n            <!--  [columnDefs]=\"columnDefs\" [defaultColDef]=\"defaultColDef\" -->\n          </ag-grid-angular>\n        </div>\n        <!-- \n        <sa-widget [editbutton]=\"false\" color=\"darken\">\n          <header>\n            <span class=\"widget-icon\">\n              <i class=\"fa fa-table\"></i>\n            </span>\n\n            <h2>External Grids</h2>\n          </header>\n        \n            <div class=\"widget-body no-padding\">\n              <alert type=\"info\" class=\"no-margin fade in\" dismisser=\"\"> \n                <i class=\"fa-fw fa fa-info\"></i>\n                Adds zebra-striping to table row within <code>&lt;table&gt;</code> by adding the <code>.table-striped</code>\n                with the base class\n              </alert>\n              \n           \n\n               \n\n              </div>\n\n          \n        </sa-widget>\n        -->\n      </article>\n    </div>\n\n  </sa-widgets-grid>\n</div>\n\n<ng-template #otherContent>Please open or create project in the Home tab first</ng-template>"
+module.exports = "<!-- MAIN CONTENT -->\n<div *ngIf=\"show;else otherContent\" id=\"content\">\n\n  <div class=\"row\">\n    <sa-big-breadcrumbs [items]=\"['Data', 'Buses']\" icon=\"table\" class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\"></sa-big-breadcrumbs>\n    <!-- <sa-stats></sa-stats> -->\n  </div>\n  <div class=\"row\">\n    <div class='col-sm-12' style=\"margin-top: 10px; margin-bottom: 10px\">\n      <button type=\"button\" class=\"btn btn-primary\" (click)=onAddRow()>Add Row</button>\n      <button type=\"button\" class=\"btn btn-danger\" (click)=removeSelected()>Delete selected</button>\n      <!--\n      <button type=\"button\" class=\"btn btn-basic\" (click)=importExcel()>Import Excel</button>\n      -->\n      <label for=\"file-upload\" class=\"custom-file-upload\">\n        <i class=\"fa fa-cloud-upload\"></i> Import Data (Excel)\n      </label>\n      <input id=\"file-upload\" type=\"file\" (change)=\"onFileUpload($event)\" multiple=\"false\"/>\n\n      <!--\n      <label for=\"file-download\" class=\"custom-file-download\">        \n      </label>\n    -->\n      <button class=\"custom-file-download\" id=\"file-download\" (click)=\"export()\" > <i class=\"fa fa-cloud-download\"></i> Export Data (Excel) </button>\n    <!--  <input type=\"file\" class=\"btn btn-basic\" (change)=\"onFileChange($event)\" multiple=\"false\" />-->\n      <!--\n      <import-file></import-file>\n      -->\n    </div>\n  </div>\n\n  <!-- widget grid -->\n  <sa-widgets-grid>\n\n\n    <div class=\"row\">\n      <article class=\"col-sm-12\">\n\n        <div class=\"table-responsive\" style=\"width: 100%; height: 500px;\">\n          <ag-grid-angular #agGrid style=\"width: 100%;height: 100%;\" class=\"ag-fresh\" [gridOptions]=\"gridOptions\" [rowData]=\"rowData\">\n            <!--  [columnDefs]=\"columnDefs\" [defaultColDef]=\"defaultColDef\" -->\n          </ag-grid-angular>\n        </div>\n        <!-- \n        <sa-widget [editbutton]=\"false\" color=\"darken\">\n          <header>\n            <span class=\"widget-icon\">\n              <i class=\"fa fa-table\"></i>\n            </span>\n\n            <h2>External Grids</h2>\n          </header>\n        \n            <div class=\"widget-body no-padding\">\n              <alert type=\"info\" class=\"no-margin fade in\" dismisser=\"\"> \n                <i class=\"fa-fw fa fa-info\"></i>\n                Adds zebra-striping to table row within <code>&lt;table&gt;</code> by adding the <code>.table-striped</code>\n                with the base class\n              </alert>\n              \n           \n\n               \n\n              </div>\n\n          \n        </sa-widget>\n        -->\n      </article>\n    </div>\n\n  </sa-widgets-grid>\n</div>\n\n<ng-template #otherContent>Please open or create project in the Home tab first</ng-template>"
 
 /***/ }),
 
-/***/ "../../../../../src/app/+data/externalgrids/externalgrids.component.ts":
+/***/ "../../../../../src/app/+data/buses/buses.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ExternalGridsComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BusesComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_xlsx__ = __webpack_require__("../../../../xlsx/xlsx.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_xlsx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_xlsx__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_services_auth_auth_service__ = __webpack_require__("../../../../../src/app/services/auth/auth.service.ts");
@@ -90,13 +90,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-let ExternalGridsComponent = class ExternalGridsComponent {
+let BusesComponent = class BusesComponent {
     constructor(http, showData, projectService, authService) {
         this.http = http;
         this.showData = showData;
         this.projectService = projectService;
         this.authService = authService;
-        this.externalgrid = [];
+        this.bus = [];
         this.wopts = { bookType: 'xlsx', type: 'array' };
         //czy pokazywać dane czy nie w zależności od tego czy projekt jest otwarty
         this.showData.currentShow.subscribe(show => this.show = show);
@@ -117,7 +117,7 @@ let ExternalGridsComponent = class ExternalGridsComponent {
                 let headers = new __WEBPACK_IMPORTED_MODULE_6__angular_common_http__["c" /* HttpHeaders */]().set('Content-Type', 'application/json; charset=utf-8');
                 //jeśli zmieniona wartość jest ok     
                 console.log("onCellValueChanged");
-                http.put('api/ExternalGrid/' + event.data.id, JSON.stringify({ ID: event.data.id, Name: event.data.name, NodeNo: event.data.nodeNo, NodeType: event.data.nodeType, VoltageAngle: event.data.voltageAngle, VoltageSetpoint: event.data.voltageSetpoint, ActivePower: event.data.activePower, ReactivePower: event.data.reactivePower, ProjectId: projectIdInside }), { headers }).subscribe();
+                http.put('api/Bus/' + event.data.id, JSON.stringify({ ID: event.data.id, Name: event.data.name, NodeNo: event.data.nodeNo, NominalVoltage: event.data.nominalVoltage, ProjectId: projectIdInside }), { headers }).subscribe();
             },
             onCellEditingStopped: () => {
                 console.log("onCellEditingStopped");
@@ -128,48 +128,18 @@ let ExternalGridsComponent = class ExternalGridsComponent {
             singleClickEdit: false,
             stopEditingWhenGridLosesFocus: true,
             enableSorting: true,
-            // enableFilter: true,
+            enableFilter: true,
             enableColResize: true,
             animateRows: true,
             rowSelection: 'multiple',
-            //rowDragManaged: true,
             columnDefs: [
                 // put the three columns into a group
                 {
                     headerName: 'Load flow data',
                     children: [
                         { headerName: "Name", field: "name", },
-                        { headerName: "No. of node", hide: false, field: "nodeNo", /*width: 100,*/ type: "numericColumn" },
-                        {
-                            headerName: "Type of node", field: "nodeType", /*width: 100,*/ cellEditor: 'select',
-                            cellEditorParams: {
-                                values: [
-                                    "SL",
-                                    "PV",
-                                    "PQ"
-                                ]
-                            }
-                        },
-                        {
-                            headerName: "Voltage angle [deg]", field: "voltageAngle", type: "numericColumn",
-                            valueFormatter: this.numberValueFormatter,
-                            valueSetter: this.numberValueSetter
-                        },
-                        {
-                            headerName: "Voltage setpoint [p.u.]", field: "voltageSetpoint", /* width: 170, */ type: "numericColumn",
-                            valueFormatter: this.numberValueFormatter,
-                            valueSetter: this.numberValueSetter
-                        },
-                        {
-                            headerName: "Active power [MW]", field: "activePower", type: "numericColumn",
-                            valueFormatter: this.numberValueFormatter,
-                            valueSetter: this.numberValueSetter
-                        },
-                        {
-                            headerName: "Reactive power [MVAr]", field: "reactivePower", /* width: 170,*/ type: "numericColumn",
-                            valueFormatter: this.numberValueFormatter,
-                            valueSetter: this.numberValueSetter
-                        }
+                        { headerName: "Node No.", field: "nodeNo", type: "numericColumn" /*width: 110*/ },
+                        { headerName: "Nominal Voltage [kV]", field: "nominalVoltage", /*width: 100,*/ type: "numericColumn" },
                     ]
                 }
             ],
@@ -184,7 +154,7 @@ let ExternalGridsComponent = class ExternalGridsComponent {
             },
         };
         //wczytaj dane z bazy danych bazując na nazwie projektu
-        http.get('api/ExternalGrid/GetBasedOnProject/' + this.projectId).subscribe(result => { this.rowData = result; });
+        http.get('api/Bus/GetBasedOnProject/' + this.projectId).subscribe(result => { this.rowData = result; });
         /*
         this.http.get('api/ExternalGrid/Get').subscribe(
           result => { this.rowData = result.json(); },
@@ -209,23 +179,14 @@ let ExternalGridsComponent = class ExternalGridsComponent {
             alert("It must be a number. Please use dot '.'");
             return false; // don't set invalid numbers!
         }
-        if (params.colDef.field == "voltageAngle") {
-            params.data.voltageAngle = params.newValue;
-        }
-        if (params.colDef.field == "voltageSetpoint") {
-            if (params.newValue < 0 || params.newValue > 1) {
-                alert("Should be between 0-1");
+        if (params.colDef.field == "nominalVoltage") {
+            if (params.newValue < 0) {
+                alert("Should be greater than zero");
                 return false; // don't set invalid numbers!
             }
             else {
-                params.data.voltageSetpoint = params.newValue;
+                params.data.nomVoltage = params.newValue;
             }
-        }
-        if (params.colDef.field == "activePower") {
-            params.data.activePower = params.newValue;
-        }
-        if (params.colDef.field == "reactivePower") {
-            params.data.reactivePower = params.newValue;
         }
         return true;
         //w bazie danych SQL dane są aktualizowane w onCellValueChanged
@@ -265,7 +226,7 @@ let ExternalGridsComponent = class ExternalGridsComponent {
             this.printResult(res);
             //back-end
             for (var rowId = 0; rowId < rowIdArray.length; rowId++) {
-                this.http.delete('api/ExternalGrid/' + rowIdArray[rowId], { headers }).subscribe();
+                this.http.delete('api/Bus/' + rowIdArray[rowId], { headers }).subscribe();
             }
         }
         else { }
@@ -274,18 +235,14 @@ let ExternalGridsComponent = class ExternalGridsComponent {
         let headers = new __WEBPACK_IMPORTED_MODULE_6__angular_common_http__["c" /* HttpHeaders */]().set('Content-Type', 'application/json; charset=utf-8');
         var newItem = {
             //id: 0,
-            name: "External Grid",
+            name: "Bus",
             nodeNo: 0,
-            nodeType: "SL",
-            voltageAngle: 0,
-            voltageSetpoint: 0,
-            activePower: 0,
-            reactivePower: 0,
+            nominalVoltage: 0,
         };
-        this.http.post('api/ExternalGrid', JSON.stringify({ ID: 0, Name: newItem.name, NodeNo: newItem.nodeNo, NodeType: newItem.nodeType, VoltageAngle: newItem.voltageAngle, VoltageSetpoint: newItem.voltageSetpoint, ActivePower: newItem.activePower, ReactivePower: newItem.reactivePower, ProjectId: this.projectId }), { headers }).subscribe((data) => {
+        this.http.post('api/Bus', JSON.stringify({ ID: 0, Name: newItem.name, NodeNo: newItem.nodeNo, NominalVoltage: newItem.nominalVoltage, ProjectId: this.projectId }), { headers }).subscribe((data) => {
             //Czekamy na wykonanie sie POST, zeby zrobic GET i WPISAC dane do tabeli we front end
             // po operacji post ustawiany jest specyficzny ID w bazie SQL, aby dany wiersz w front-end miał taki sam ID, musze sciagnac te dane do frontendu
-            this.http.get('api/ExternalGrid/GetBasedOnProject/' + this.projectId).subscribe(result => { this.rowData = result; });
+            this.http.get('api/Bus/GetBasedOnProject/' + this.projectId).subscribe(result => { this.rowData = result; });
             var res = this.gridOptions.api.updateRowData({ add: [newItem] });
             this.printResult(res);
         });
@@ -299,12 +256,8 @@ let ExternalGridsComponent = class ExternalGridsComponent {
         // we expect the following columns to be present
         var columns = {
             'A': 'name',
-            'B': 'nodeType',
-            'C': 'nodeNo',
-            'D': 'voltageAngle',
-            'E': 'voltageSetpoint',
-            'F': 'activePower',
-            'G': 'reactivePower'
+            'B': 'nodeNo',
+            'C': 'nomVoltage',
         };
         var rowData = [];
         // start at the 2nd row - the first row are the headers
@@ -324,15 +277,10 @@ let ExternalGridsComponent = class ExternalGridsComponent {
                 //id: 0,         
                 projectId: this.projectId
             });
-            /*
-            this.http.post('api/ExternalGrid', resultRow, { headers }).subscribe();
-            var res = this.gridOptions.api.updateRowData({ add: [resultRow] });
-            this.printResult(res);
-            */
-            this.http.post('api/ExternalGrid', resultRow, { headers }).subscribe((data) => {
+            this.http.post('api/Bus', resultRow, { headers }).subscribe((data) => {
                 //Czekamy na wykonanie sie POST, zeby zrobic GET i WPISAC dane do tabeli we front end
                 // po operacji post ustawiany jest specyficzny ID w bazie SQL, aby dany wiersz w front-end miał taki sam ID, musze sciagnac te dane do frontendu
-                this.http.get('api/ExternalGrid/GetBasedOnProject/' + this.projectId).subscribe(result => { this.rowData = result; });
+                this.http.get('api/Bus/GetBasedOnProject/' + this.projectId).subscribe(result => { this.rowData = result; });
                 var res = this.gridOptions.api.updateRowData({ add: [row] });
                 this.printResult(res);
             });
@@ -355,7 +303,7 @@ let ExternalGridsComponent = class ExternalGridsComponent {
     }
     export() {
         //zbierz dane z serwera i zapisz do pliku xlsx
-        this.http.get('api/ExternalGrid/GetBasedOnProjectWithoutColumns/' + this.projectId).subscribe((data) => {
+        this.http.get('api/Bus/GetBasedOnProjectWithoutColumns/' + this.projectId).subscribe((data) => {
             // generate worksheet
             const ws = __WEBPACK_IMPORTED_MODULE_0_xlsx__["utils"].json_to_sheet(data);
             // generate workbook and add the worksheet 
@@ -363,35 +311,35 @@ let ExternalGridsComponent = class ExternalGridsComponent {
             __WEBPACK_IMPORTED_MODULE_0_xlsx__["utils"].book_append_sheet(wb, ws, 'Sheet1');
             /* save to file */
             //XLSX.writeFile(wb, 'externalgrid_'+this.projectName+'.xlsx');
-            __WEBPACK_IMPORTED_MODULE_0_xlsx__["writeFile"](wb, 'externalgrid_' + this.projectName + '.xlsx');
+            __WEBPACK_IMPORTED_MODULE_0_xlsx__["writeFile"](wb, 'bus_' + this.projectName + '.xlsx');
         });
     }
 };
-ExternalGridsComponent = __decorate([
+BusesComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_5__shared_animations_fade_in_top_decorator__["a" /* FadeInTop */])(),
     Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["Component"])({
-        template: __webpack_require__("../../../../../src/app/+data/externalgrids/externalgrids.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/+data/externalgrids/externalgrids.component.css")]
+        template: __webpack_require__("../../../../../src/app/+data/buses/buses.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/+data/buses/buses.component.css")]
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6__angular_common_http__["a" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_3_app_services_show_data_service__["a" /* ShowDataService */], __WEBPACK_IMPORTED_MODULE_2__services_project_service__["a" /* ProjectService */], __WEBPACK_IMPORTED_MODULE_1_app_services_auth_auth_service__["a" /* AuthService */]])
-], ExternalGridsComponent);
+], BusesComponent);
 
 
 
 /***/ }),
 
-/***/ "../../../../../src/app/+data/externalgrids/externalgrids.module.ts":
+/***/ "../../../../../src/app/+data/buses/buses.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExternalGridsModule", function() { return ExternalGridsModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BusesModule", function() { return BusesModule; });
 /* harmony export (immutable) */ __webpack_exports__["getBaseUrl"] = getBaseUrl;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm2015/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/esm2015/common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_http__ = __webpack_require__("../../../common/esm2015/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__externalgrids_routing_module__ = __webpack_require__("../../../../../src/app/+data/externalgrids/externalgrids-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_data_externalgrids_externalgrids_component__ = __webpack_require__("../../../../../src/app/+data/externalgrids/externalgrids.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__buses_routing_module__ = __webpack_require__("../../../../../src/app/+data/buses/buses-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__buses_component__ = __webpack_require__("../../../../../src/app/+data/buses/buses.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_smartadmin_module__ = __webpack_require__("../../../../../src/app/shared/smartadmin.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ag_grid_angular_main__ = __webpack_require__("../../../../ag-grid-angular/main.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ag_grid_angular_main___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ag_grid_angular_main__);
@@ -408,25 +356,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-let ExternalGridsModule = class ExternalGridsModule {
+let BusesModule = class BusesModule {
 };
-ExternalGridsModule = __decorate([
+BusesModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
             __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["b" /* HttpClientModule */],
             __WEBPACK_IMPORTED_MODULE_5_app_shared_smartadmin_module__["a" /* SmartadminModule */],
             __WEBPACK_IMPORTED_MODULE_6_ag_grid_angular_main__["AgGridModule"].withComponents([]),
-            __WEBPACK_IMPORTED_MODULE_3__externalgrids_routing_module__["a" /* ExternalGridsRoutingModule */]
+            __WEBPACK_IMPORTED_MODULE_3__buses_routing_module__["a" /* BusesRoutingModule */]
         ],
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_4_app_data_externalgrids_externalgrids_component__["a" /* ExternalGridsComponent */]
+            __WEBPACK_IMPORTED_MODULE_4__buses_component__["a" /* BusesComponent */]
         ],
         providers: [
             { provide: 'BASE_URL', useFactory: getBaseUrl }
         ]
     })
-], ExternalGridsModule);
+], BusesModule);
 
 function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
@@ -436,4 +384,4 @@ function getBaseUrl() {
 /***/ })
 
 });
-//# sourceMappingURL=externalgrids.module.chunk.js.map
+//# sourceMappingURL=buses.module.chunk.js.map

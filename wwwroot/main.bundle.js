@@ -13,6 +13,11 @@ var map = {
 		"common",
 		"loadflow.module"
 	],
+	"app/+data/buses/buses.module": [
+		"../../../../../src/app/+data/buses/buses.module.ts",
+		"common",
+		"buses.module"
+	],
 	"app/+data/data.module": [
 		"../../../../../src/app/+data/data.module.ts",
 		"data.module"
@@ -775,7 +780,7 @@ let ProjectService = class ProjectService {
         return this.http.get('/api/Project/Get');
     }
     updateProject(projectId, userid) {
-        this.http.put('api/Project/Put/' + projectId, JSON.stringify({ ID: projectId, LastUpdate: "0001-01-01T00:00:00", Name: "IEEE 3 bus", UserId: userid }), { headers: this.headers }).subscribe();
+        this.http.put('api/Project/Put/' + projectId, JSON.stringify({ ID: projectId, LastUpdate: "0001-01-01T00:00:00", Name: "3 bus", UserId: userid }), { headers: this.headers }).subscribe();
     }
     createProject(newProjectName, userId) {
         this.http.post('api/Project/CreateProject/', JSON.stringify({ LastUpdate: "0001-01-01 00:00:00.0000000", Name: newProjectName, UserId: userId }), { headers: this.headers }).subscribe((data) => {
@@ -2363,7 +2368,7 @@ MinifyMenuComponent = __decorate([
 /***/ "../../../../../src/app/shared/layout/navigation/navigation.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<aside id=\"left-panel\">\n\n  <!-- User info -->\n  <sa-login-info></sa-login-info>\n  <!-- end user info -->\n\n  <nav>\n    <!-- NOTE: Notice the gaps after each icon usage <i></i>..\n    Please note that these links work a bit different than\n    traditional href=\"\" links. See documentation for details.\n    -->\n\n    <ul saSmartMenu>\n\n      <li routerLinkActive=\"active\">\n        <a routerLink=\"/home\" title=\"Home\">\n          <i class=\"fa fa-lg fa-fw fa-home\"></i> <span class=\"menu-item-parent\">{{'Home' | i18n}}</span></a>\n      </li>\n\n      <li *ngIf=\"auth.isAuthenticated()\">\n        <a href=\"\">\n          <i class=\"fa fa-lg fa-fw fa-table\"></i>\n          <span class=\"menu-item-parent\">{{'Data' | i18n}}</span>\n        </a>\n        <ul>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/externalgrids\">{{'External Grids' | i18n}}</a>\n          </li>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/overheadlines\">Overhead Lines</a>\n          </li>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/twophasetransformers\">Two Phase Transformers</a>\n          </li>\n\n        </ul>\n      </li>\n\n      <li *ngIf=\"auth.isAuthenticated()\">\n        <a href=\"\">\n          <i class=\"fa fa-lg fa-fw fa-calculator\"></i>\n          <span class=\"menu-item-parent\">{{'Calculation' | i18n}}</span>\n        </a>\n        <ul>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/calculation/loadflow\">{{'Load Flow' | i18n}}</a>\n          </li>\n        </ul>\n      </li>\n\n\n    </ul>\n  </nav>\n\n  <sa-minify-menu></sa-minify-menu>\n\n</aside>\n"
+module.exports = "<aside id=\"left-panel\">\n\n  <!-- User info -->\n  <sa-login-info></sa-login-info>\n  <!-- end user info -->\n\n  <nav>\n    <!-- NOTE: Notice the gaps after each icon usage <i></i>..\n    Please note that these links work a bit different than\n    traditional href=\"\" links. See documentation for details.\n    -->\n\n    <ul saSmartMenu>\n\n      <li routerLinkActive=\"active\">\n        <a routerLink=\"/home\" title=\"Home\">\n          <i class=\"fa fa-lg fa-fw fa-home\"></i>\n          <span class=\"menu-item-parent\">{{'Home' | i18n}}</span>\n        </a>\n      </li>\n\n      <li *ngIf=\"auth.isAuthenticated()\">\n        <a href=\"\">\n          <i class=\"fa fa-lg fa-fw fa-table\"></i>\n          <span class=\"menu-item-parent\">{{'Data' | i18n}}</span>\n        </a>\n        <ul>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/buses\">{{'Buses' | i18n}}</a>\n          </li>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/externalgrids\">{{'External Grids' | i18n}}</a>\n          </li>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/overheadlines\">Overhead Lines</a>\n          </li>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/twophasetransformers\">Two Phase Transformers</a>\n          </li>\n\n        </ul>\n      </li>\n\n      <li *ngIf=\"auth.isAuthenticated()\">\n        <a href=\"\">\n          <i class=\"fa fa-lg fa-fw fa-calculator\"></i>\n          <span class=\"menu-item-parent\">{{'Calculation' | i18n}}</span>\n        </a>\n        <ul>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/calculation/loadflow\">{{'Load Flow' | i18n}}</a>\n          </li>\n        </ul>\n      </li>\n\n\n    </ul>\n  </nav>\n\n  <sa-minify-menu></sa-minify-menu>\n\n</aside>"
 
 /***/ }),
 
