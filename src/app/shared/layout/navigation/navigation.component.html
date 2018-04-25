@@ -18,6 +18,7 @@
           <span class="menu-item-parent">{{'Home' | i18n}}</span>
         </a>
       </li>
+   
 
       <li *ngIf="auth.isAuthenticated()">
         <a href="">
@@ -32,10 +33,10 @@
             <a routerLink="/data/externalgrids">{{'External Grids' | i18n}}</a>
           </li>
           <li routerLinkActive="active">
-            <a routerLink="/data/overheadlines">Overhead Lines</a>
+            <a routerLink="/data/overheadlines">{{'Power Lines' | i18n}}</a>
           </li>
           <li routerLinkActive="active">
-            <a routerLink="/data/twophasetransformers">Two Phase Transformers</a>
+            <a routerLink="/data/twophasetransformers">{{'Two-Winding Transformers' | i18n}}</a>
           </li>
 
         </ul>
@@ -52,6 +53,16 @@
           </li>
         </ul>
       </li>
+      
+
+      <li routerLinkActive="active">
+        <a target="_blank" href="https://electrisim.com/page-knowledgebase.html" title="Documentation">
+          <i class="fa fa-lg fa-fw fa-book"></i>
+             <span class="menu-item-parent">{{'Documentation' | i18n}}</span>
+        </a>
+      </li>
+
+      
 
 
     </ul>

@@ -78,15 +78,29 @@ namespace lite191.Models
              
             var overheadlines = new OverheadLine[]
             {
-                 new OverheadLine{Name="OHL1", StartNodeNo=0, EndNodeNo=1, Length=1, UnitaryResistance=0, UnitaryReactance =18, UnitaryCapacitance=0, ProjectId = projekt3bus.ID },
-                 new OverheadLine{Name="OHL2", StartNodeNo=0, EndNodeNo=2, Length=1, UnitaryResistance=0, UnitaryReactance =7.2, UnitaryCapacitance=0, ProjectId = projekt3bus.ID },
-                 new OverheadLine{Name="OHL3", StartNodeNo=1, EndNodeNo=2, Length=1, UnitaryResistance=0, UnitaryReactance =9, UnitaryCapacitance=277.8, ProjectId = projekt3bus.ID }
-            };
-            
+                 new OverheadLine{Name="Line1", StartNodeNo=0, EndNodeNo=1, Length=1, UnitaryResistance=0, UnitaryReactance =18, UnitaryCapacitance=0, ProjectId = projekt3bus.ID },
+                 new OverheadLine{Name="Line2", StartNodeNo=0, EndNodeNo=2, Length=1, UnitaryResistance=0, UnitaryReactance =7.2, UnitaryCapacitance=0, ProjectId = projekt3bus.ID },
+                 new OverheadLine{Name="Line3", StartNodeNo=1, EndNodeNo=2, Length=1, UnitaryResistance=0, UnitaryReactance =9, UnitaryCapacitance=277.8, ProjectId = projekt3bus.ID }
+            };            
 
             foreach (OverheadLine s in overheadlines)
             {
                 context.OverheadLines.Add(s);
+            }
+            context.SaveChanges();
+
+            
+            
+            var linesGlobal = new LineGlobal[]
+            {
+                 new LineGlobal{Name="A2XS(FL)2Y 1x95 18/30 kV", StartNodeNo=0, EndNodeNo=0, Length=1, UnitaryResistance=12, UnitaryReactance =11, UnitaryCapacitance=23 },
+                 new LineGlobal{Name="A2XS(FL)2Y 1x120 18/30 kV", StartNodeNo=0, EndNodeNo=0, Length=1, UnitaryResistance=14, UnitaryReactance =3, UnitaryCapacitance=26 },
+                 new LineGlobal{Name="A2XS(FL)2Y 1x150 18/30 kV", StartNodeNo=0, EndNodeNo=0, Length=1, UnitaryResistance=15, UnitaryReactance =2, UnitaryCapacitance=58 }
+            };            
+
+            foreach (LineGlobal s in linesGlobal)
+            {
+                context.LinesGlobal.Add(s);
             }
             context.SaveChanges();
 

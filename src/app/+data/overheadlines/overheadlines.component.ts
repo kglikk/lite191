@@ -4,6 +4,7 @@ import { ShowDataService } from './../../services/show-data.service';
 import { Component, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { GridOptions } from "ag-grid/main";
+import { ChildMessageRenderer } from './child-message-renderer.component';
 
 @Component({
     templateUrl: './overheadlines.component.html',
@@ -19,7 +20,13 @@ export class OverheadLinesComponent {
     name: string;
     projectId: number;
     projectName: string;
+    private context;
     private gridColumnApi;
+    private frameworkComponents;
+    private columnDefs;
+    private rowHeight;
+
+  
 
     constructor(public http: HttpClient, public showData: ShowDataService, public projectService: ProjectService) {
 
@@ -31,23 +38,78 @@ export class OverheadLinesComponent {
         let projectIdInside = this.projectId;
 
 
-         this.projectService.currentProjectName.subscribe(projectName => this.projectName = projectName)
+        this.projectService.currentProjectName.subscribe(projectName => this.projectName = projectName)
 
         // we pass an empty gridOptions in, so we can grab the api out
         this.gridOptions = <GridOptions>{
             onGridReady: () => {
-                this.gridOptions.api.sizeColumnsToFit(); 
+                this.gridOptions.api.sizeColumnsToFit();
             },
-         
+           
+
         };
+
+
+        //this.rowHeight = 40;
+        
+        this.columnDefs = [    /* {
+            headerName: 'Load flow data',
+            children: [ */
+            { headerName: "Name", field: "name", suppressSizeToFit: false/*width: 110*/ },
+            {
+                headerName: "Line Type",
+                field: "lineType",
+                cellRenderer: "childMessageRenderer",
+                colId: "params",
+                //cellStyle: {'margin-top': '0px'}
+
+            },
+            {
+                headerName: "Start node no.", field: "startNodeNo", type: "numericColumn", suppressSizeToFit: false,
+                valueFormatter: this.numberValueFormatter,
+                valueSetter: this.numberValueSetter
+            },
+            {
+                headerName: "End node no.", field: "endNodeNo", type: "numericColumn", suppressSizeToFit: false,
+                valueFormatter: this.numberValueFormatter,
+                valueSetter: this.numberValueSetter
+            },
+            {
+                headerName: "Length [km]", field: "length", type: "numericColumn",
+                valueFormatter: this.numberValueFormatter,
+                valueSetter: this.numberValueSetter
+            },
+            {
+                headerName: "Unitary Resistance [Ω/km]", field: "unitaryResistance", type: "numericColumn",
+                valueFormatter: this.numberValueFormatter,
+                valueSetter: this.numberValueSetter
+            },
+            {
+                headerName: "Unitary Reactance [Ω/km]", field: "unitaryReactance", type: "numericColumn",
+                valueFormatter: this.numberValueFormatter,
+                valueSetter: this.numberValueSetter
+            },
+            {
+                headerName: "Unitary Capacitance [uS/km]", field: "unitaryCapacitance", type: "numericColumn",
+                valueFormatter: this.numberValueFormatter,
+                valueSetter: this.numberValueSetter
+            }
+
+        ];
+            this.context = { componentParent: this };
+            this.frameworkComponents = {
+
+                childMessageRenderer: ChildMessageRenderer
+            };
+    
 
         this.gridOptions = {
             onCellValueChanged: function (event) {
                 //jeśli zmieniona wartość jest ok 
-                console.log("onCellValueChanged");
+                console.log("onCellValueChanged w overheadline");
                 let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
 
-                http.put('api/OverheadLine/' + event.data.id, JSON.stringify({ ID: event.data.id, Name: event.data.name, StartNodeNo: event.data.startNodeNo, EndNodeNo: event.data.endNodeNo, Length: event.data.length, UnitaryResistance: event.data.unitaryResistance, UnitaryReactance: event.data.unitaryReactance, UnitaryCapacitance: event.data.unitaryCapacitance, ProjectId: projectIdInside }), { headers }).subscribe();
+                http.put('api/OverheadLine/' + event.data.id, JSON.stringify({ ID: event.data.id, Name: event.data.name, LineType: event.data.lineType, StartNodeNo: event.data.startNodeNo, EndNodeNo: event.data.endNodeNo, Length: event.data.length, UnitaryResistance: event.data.unitaryResistance, UnitaryReactance: event.data.unitaryReactance, UnitaryCapacitance: event.data.unitaryCapacitance, ProjectId: projectIdInside }), { headers }).subscribe();
             },
             onCellEditingStopped: () => {
                 console.log("onCellEditingStopped");
@@ -63,45 +125,10 @@ export class OverheadLinesComponent {
             enableColResize: true,
             animateRows: true,
             rowSelection: 'multiple',
-            columnDefs: [
-                // put the three columns into a group
-                {
-                    headerName: 'Load flow data',
-                    children: [
-                        { headerName: "Name", field: "name", suppressSizeToFit: false/*width: 110*/ },
-                        {
-                            headerName: "Start node no.", field: "startNodeNo", type: "numericColumn", suppressSizeToFit: false,
-                            valueFormatter: this.numberValueFormatter,
-                            valueSetter: this.numberValueSetter
-                        },
-                        {
-                            headerName: "End node no.", field: "endNodeNo", type: "numericColumn", suppressSizeToFit: false,
-                            valueFormatter: this.numberValueFormatter,
-                            valueSetter: this.numberValueSetter
-                        },
-                        {
-                            headerName: "Length [km]", field: "length", type: "numericColumn",
-                            valueFormatter: this.numberValueFormatter,
-                            valueSetter: this.numberValueSetter
-                        },
-                        {
-                            headerName: "Unitary Resistance [Ω/km]", field: "unitaryResistance", type: "numericColumn",
-                            valueFormatter: this.numberValueFormatter,
-                            valueSetter: this.numberValueSetter
-                        },
-                        {
-                            headerName: "Unitary Reactance [Ω/km]", field: "unitaryReactance", type: "numericColumn",
-                            valueFormatter: this.numberValueFormatter,
-                            valueSetter: this.numberValueSetter
-                        },
-                        {
-                            headerName: "Unitary Capacitance [uS/km]", field: "unitaryCapacitance", type: "numericColumn",
-                            valueFormatter: this.numberValueFormatter,
-                            valueSetter: this.numberValueSetter
-                        }
-                    ]
-                }
-            ],
+            
+
+
+
             defaultColDef: {
                 //enableCellChangeFlash: true,
                 // set every column width
@@ -111,18 +138,18 @@ export class OverheadLinesComponent {
                 // make every column use 'text' filter by default
                 filter: 'text'
             },
-        }
 
+        }
         //wczytaj dane z bazy danych
         this.http.get('api/OverheadLine/GetBasedOnProject/' + this.projectId).subscribe(result => {
             this.rowData = result;
         });
-
-        
-
-      //  this.autoSizeAll();
     }
- 
+
+    methodFromParent(cell) {
+        alert("Parent Component Method from " + cell + "!");
+    }
+
     //sprawdzanie czy wprowadzona liczba do tabeli jest liczbą
     numberValueFormatter(params) {
         /*
@@ -142,8 +169,8 @@ export class OverheadLinesComponent {
 
         //czy jest mniejszy od zera czy jest integer
         if (params.colDef.field == "startNodeNo") {
-          //  alert(!Number.isInteger(Number(params.newValue)));
-            if(params.newValue < 0 ) {
+            //  alert(!Number.isInteger(Number(params.newValue)));
+            if (params.newValue < 0) {
                 alert("Can't be minus value");
                 return false; // don't set invalid numbers!                
             } else {
@@ -152,11 +179,11 @@ export class OverheadLinesComponent {
                     return false; // don't set invalid numbers!                
                 } else {
                     params.data.startNodeNo = params.newValue;
-                }           
+                }
 
             }
 
-             
+
         }
         //czy jest mniejszy od zera czy jest integer
         if (params.colDef.field == "endNodeNo") {
@@ -169,9 +196,9 @@ export class OverheadLinesComponent {
                     return false; // don't set invalid numbers!                
                 } else {
                     params.data.endNodeNo = params.newValue;
-                }    
+                }
             }
-           
+
         }
         if (params.colDef.field == "length") {
             if (params.newValue < 0) {
@@ -189,7 +216,7 @@ export class OverheadLinesComponent {
             } else {
                 params.data.unitaryResistance = params.newValue;
             }
-            
+
         }
         if (params.colDef.field == "unitaryReactance") {
             if (params.newValue < 0) {
@@ -198,7 +225,7 @@ export class OverheadLinesComponent {
             } else {
                 params.data.unitaryReactance = params.newValue;
             }
-            
+
         }
         if (params.colDef.field == "unitaryCapacitance") {
             if (params.newValue < 0) {
@@ -207,7 +234,7 @@ export class OverheadLinesComponent {
             } else {
                 params.data.unitaryCapacitance = params.newValue;
             }
-            
+
         }
         return true;
         //w bazie danych SQL dane są aktualizowane w onCellValueChanged  
@@ -234,6 +261,18 @@ export class OverheadLinesComponent {
         }
     }
 
+    //aktualizuj dane w tabeli zwiazane z wybranym typem linii
+    updateData(newItem) {        
+          
+        this.http.get('api/OverheadLine/Get').subscribe(response => {
+            this.rowData = response;     
+            this.printResult(this.rowData);       
+            
+        });
+
+    }
+
+    //usun zaznaczony element
     removeSelected() {
 
         if (window.confirm('Are you sure you want to delete?')) {
@@ -264,6 +303,7 @@ export class OverheadLinesComponent {
         var newItem = {
 
             name: "Overhead Line",
+            lineType: "General",
             startNodeNo: 0,
             endNodeNo: 0,
             length: 0,
@@ -274,7 +314,7 @@ export class OverheadLinesComponent {
         };
         let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
 
-        this.http.post('api/OverheadLine', JSON.stringify({ ID: 0, Name: newItem.name, StartNodeNo: newItem.startNodeNo, EndNodeNo: newItem.endNodeNo, Length: newItem.length, UnitaryResistance: newItem.unitaryResistance, UnitaryReactance: newItem.unitaryReactance, UnitaryCapacitance: newItem.unitaryCapacitance, ProjectId: this.projectId }), { headers }).subscribe((data: Object) => {
+        this.http.post('api/OverheadLine', JSON.stringify({ ID: 0, Name: newItem.name, LineType: newItem.lineType, StartNodeNo: newItem.startNodeNo, EndNodeNo: newItem.endNodeNo, Length: newItem.length, UnitaryResistance: newItem.unitaryResistance, UnitaryReactance: newItem.unitaryReactance, UnitaryCapacitance: newItem.unitaryCapacitance, ProjectId: this.projectId }), { headers }).subscribe((data: Object) => {
             //Czekamy na wykonanie sie POST, zeby zrobic GET i WPISAC dane do tabeli we front end
 
             // po operacji post ustawiany jest specyficzny ID w bazie SQL, aby dany wiersz w fron-end miał taki sam ID, musze sciagnac te dane do frontendu    
@@ -287,104 +327,106 @@ export class OverheadLinesComponent {
         );
     }
 
-     // pull out the values we're after, converting it into an array of rowData
-  populateGrid(workbook) {
-    let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+    // pull out the values we're after, converting it into an array of rowData
+    populateGrid(workbook) {
+        let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
 
-    // our data is in the first sheet
-    var firstSheetName = workbook.SheetNames[0];
-    var worksheet = workbook.Sheets[firstSheetName];
+        // our data is in the first sheet
+        var firstSheetName = workbook.SheetNames[0];
+        var worksheet = workbook.Sheets[firstSheetName];
 
-    // we expect the following columns to be present
-    var columns = {
-      'A': 'name',
-      'B': 'startNodeNo',
-      'C': 'endNodeNo',
-      'D': 'length',
-      'E': 'unitaryResistance',
-      'F': 'unitaryReactance',
-      'G': 'unitaryCapacitance'      
-    };
-    
-    var rowData = [];
+        // we expect the following columns to be present
+        var columns = {
+            'A': 'name',
+            'B': 'lineType',
+            'C': 'startNodeNo',
+            'D': 'endNodeNo',
+            'E': 'length',
+            'F': 'unitaryResistance',
+            'G': 'unitaryReactance',
+            'H': 'unitaryCapacitance'
+        };
 
-    // start at the 2nd row - the first row are the headers
-    var rowIndex = 2;
+        var rowData = [];
 
-    // iterate over the worksheet pulling out the columns we're expecting
-    while (worksheet['A' + rowIndex]) {
-      var row = {};
-      Object.keys(columns).forEach(function (column) {
-        row[columns[column]] = worksheet[column + rowIndex].w;
-      });
-      // console.log("JSON.stringify(row" + JSON.stringify(row)); 
+        // start at the 2nd row - the first row are the headers
+        var rowIndex = 2;
 
-      rowData.push(row);
-      //połącz dwa JSONY, żeby dodać numer projektu
-      var resultRow = {
-        ...{
-            ID: 0
-          },
-        ...row,
-        ... {
-          //id: 0,         
-          projectId: this.projectId
+        // iterate over the worksheet pulling out the columns we're expecting
+        while (worksheet['A' + rowIndex]) {
+            var row = {};
+            Object.keys(columns).forEach(function (column) {
+                row[columns[column]] = worksheet[column + rowIndex].w;
+            });
+            // console.log("JSON.stringify(row" + JSON.stringify(row)); 
+
+            rowData.push(row);
+            //połącz dwa JSONY, żeby dodać numer projektu
+            var resultRow = {
+                ...{
+                    ID: 0
+                },
+                ...row,
+                ... {
+                    //id: 0,         
+                    projectId: this.projectId
+                }
+            };
+
+            this.http.post('api/OverheadLine', resultRow, { headers }).subscribe((data: Object) => {
+                //Czekamy na wykonanie sie POST, zeby zrobic GET i WPISAC dane do tabeli we front end
+
+                // po operacji post ustawiany jest specyficzny ID w bazie SQL, aby dany wiersz w front-end miał taki sam ID, musze sciagnac te dane do frontendu
+                this.http.get('api/OverheadLine/GetBasedOnProject/' + this.projectId).subscribe(
+                    result => { this.rowData = result; },
+                );
+
+                var res = this.gridOptions.api.updateRowData({ add: [row] });
+                this.printResult(res);
+            });
+            rowIndex++;
         }
-      };
+    }
 
-      this.http.post('api/OverheadLine',resultRow , { headers }).subscribe((data: Object) => {
-        //Czekamy na wykonanie sie POST, zeby zrobic GET i WPISAC dane do tabeli we front end
-  
-        // po operacji post ustawiany jest specyficzny ID w bazie SQL, aby dany wiersz w front-end miał taki sam ID, musze sciagnac te dane do frontendu
-        this.http.get('api/OverheadLine/GetBasedOnProject/' + this.projectId).subscribe(
-          result => { this.rowData = result; },
-        );
-  
-        var res = this.gridOptions.api.updateRowData({ add: [row] });
-        this.printResult(res);
-      });
-      rowIndex++;
-    } 
-  }
+    wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
 
-  wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
+    onFileUpload(evt: any) {
+        /* wire up file reader */
+        const target: DataTransfer = <DataTransfer>(evt.target);
+        if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+        const reader: FileReader = new FileReader();
+        reader.onload = (e: any) => {
+            /* read workbook */
+            const bstr: string = e.target.result;
+            const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
+            this.populateGrid(wb);
+        };
+        reader.readAsBinaryString(target.files[0]);
+    }
 
-  onFileUpload(evt: any) {
-    /* wire up file reader */
-    const target: DataTransfer = <DataTransfer>(evt.target);
-    if (target.files.length !== 1) throw new Error('Cannot use multiple files');
-    const reader: FileReader = new FileReader();
-    reader.onload = (e: any) => {
-      /* read workbook */
-      const bstr: string = e.target.result;
-      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
-      this.populateGrid(wb);
-    };
-    reader.readAsBinaryString(target.files[0]);
-  }
+    export(): void {
+        //zbierz dane z serwera i zapisz do pliku xlsx
+        this.http.get('api/OverheadLine/GetBasedOnProjectWithoutColumns/' + this.projectId).subscribe((data: any) => {
 
-  export(): void {
-    //zbierz dane z serwera i zapisz do pliku xlsx
-    this.http.get('api/OverheadLine/GetBasedOnProjectWithoutColumns/' + this.projectId).subscribe((data: any) => {
+            // generate worksheet
+            const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
 
-      // generate worksheet
-      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+            // generate workbook and add the worksheet 
+            const wb: XLSX.WorkBook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      // generate workbook and add the worksheet 
-      const wb: XLSX.WorkBook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-      /* save to file */
-      //XLSX.writeFile(wb, 'externalgrid_'+this.projectName+'.xlsx');
-      XLSX.writeFile(wb, 'overheadline_' + this.projectName + '.xlsx');
-   });
-  }
+            /* save to file */
+            //XLSX.writeFile(wb, 'externalgrid_'+this.projectName+'.xlsx');
+            XLSX.writeFile(wb, 'powerline_' + this.projectName + '.xlsx');
+        });
+    }
 
 }
 
 export interface OverheadLines {
     id: number;
     name: string;
+    lineType: string;
     startNodeNo: number;
     endNodeNo: number;
     length: number;

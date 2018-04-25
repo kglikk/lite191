@@ -69,6 +69,7 @@ module.exports = "<!-- MAIN CONTENT -->\n\n  <div *ngIf=\"show;else othercontent
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_http__ = __webpack_require__("../../../common/esm2015/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_xlsx__ = __webpack_require__("../../../../xlsx/xlsx.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_xlsx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_xlsx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_project_service__ = __webpack_require__("../../../../../src/app/services/project.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -78,18 +79,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
+
 
 
 
 
 let LoadFlowComponent = class LoadFlowComponent {
+    //headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     // showResult: boolean = false;
-    constructor(http, showData, baseUrl) {
+    constructor(http, showData, projectService) {
         this.http = http;
         this.showData = showData;
+        this.projectService = projectService;
         this.loadflow = [];
         //  this.rowData = JSON.parse(localStorage.getItem('dane'));
         this.showButton = false;
@@ -100,6 +101,7 @@ let LoadFlowComponent = class LoadFlowComponent {
         this.gridOptionsBusbars = {
             onGridReady: () => {
                 this.gridOptionsBusbars.api.sizeColumnsToFit(); //make the currently visible columns fit the screen.
+                this.gridOptionsBusbars.api.setRowData([]);
                 // show 'no rows' overlay              
             },
         };
@@ -174,7 +176,7 @@ let LoadFlowComponent = class LoadFlowComponent {
                             headerName: "End bus number", field: "busNoEnd", type: "numericColumn", columnGroupShow: 'open'
                         },
                         {
-                            headerName: "Active power loss [kW]", field: "resultPloss", type: "numericColumn", columnGroupShow: 'open', valueFormatter: this.numberFormatter
+                            headerName: "Active power loss [MW]", field: "resultPloss", type: "numericColumn", columnGroupShow: 'open', valueFormatter: this.numberFormatter
                         },
                         {
                             headerName: "Reactive power loss [MVar]", field: "resultQloss", type: "numericColumn", columnGroupShow: 'open', valueFormatter: this.numberFormatter
@@ -190,6 +192,18 @@ let LoadFlowComponent = class LoadFlowComponent {
             ],
         };
     }
+    /*
+
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
+        return next.handle(request).do((event: HttpEvent<any>) => {}, (err: any) => {
+          if (err instanceof HttpErrorResponse) {
+            // do error handling here
+           
+          }
+        });
+      }
+*/
     numberFormatter(params) {
         var result;
         //w przypadku bardzo małych liczb wyświetla wartość 0 
@@ -206,27 +220,38 @@ let LoadFlowComponent = class LoadFlowComponent {
             */
         }
     }
-    /*
-  formatNumber(number) {
-      return Math.floor(number)
-        .toString()
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-  } */
-    /*
-   numberParser(params) {
-        return Number(params.newValue);
-      }*/
     executeLoadFlow() {
-        this.http.get('api/LoadFlow/Get').subscribe(result => {
+        //obserwuj ID projektu, który jest otwarty, żeby na tej podstawie wczytywać dane
+        this.projectService.currentProjectId.subscribe(projectId => this.projectId = projectId);
+        this.http.get('api/LoadFlow/Calculate/' + this.projectId).subscribe(result => {
             this.rowDataBusbars = result; //as LoadFlow[]
             this.rowDataBranches = result;
             this.showButton = true;
-            //  localStorage.setItem('dane', JSON.stringify(result)); 
+        }, error => {
+            alert("Something went wrong. Please verify data and try again. Please contact electrisim@electrisim.com for support");
         });
-        //  this.showResult = true;
     }
+    //zaktualizowanie tabeli
+    printResult(res) {
+        console.log('---------------------------------------');
+        if (res.add) {
+            res.add.forEach(function (rowNode) {
+                console.log('Added Row Node', rowNode);
+            });
+        }
+        if (res.remove) {
+            res.remove.forEach(function (rowNode) {
+                console.log('Removed Row Node', rowNode);
+            });
+        }
+        if (res.update) {
+            res.update.forEach(function (rowNode) {
+                console.log('Updated Row Node', rowNode);
+            });
+        }
+    }
+    //zbierz dane z serwera i zapisz do pliku xlsx
     export() {
-        //zbierz dane z serwera i zapisz do pliku xlsx
         const ws = __WEBPACK_IMPORTED_MODULE_3_xlsx__["utils"].json_to_sheet(this.rowDataBusbars);
         // generate workbook and add the worksheet 
         const wb = __WEBPACK_IMPORTED_MODULE_3_xlsx__["utils"].book_new();
@@ -248,8 +273,7 @@ LoadFlowComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/+calculation/loadflow/loadflow.component.html"),
         styles: [__webpack_require__("../../../../../src/app/+calculation/loadflow/loadflow.component.css")]
     }),
-    __param(2, Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Inject"])('BASE_URL')),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_0_app_services_show_data_service__["a" /* ShowDataService */], String])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_0_app_services_show_data_service__["a" /* ShowDataService */], __WEBPACK_IMPORTED_MODULE_4__services_project_service__["a" /* ProjectService */]])
 ], LoadFlowComponent);
 
 

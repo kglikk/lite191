@@ -28,6 +28,8 @@ import {CoreModule} from "./core/core.module";
 import {SmartadminLayoutModule} from "./shared/layout/layout.module";
 
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { LineTypeService } from './services/linetype.service';
+
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -49,6 +51,7 @@ type StoreType = {
   declarations: [
     AppComponent,
     CallbackComponent,
+    
   
 
   ],
@@ -64,6 +67,7 @@ type StoreType = {
 
     CoreModule,
     SmartadminLayoutModule,
+    
 
     routing
   ],
@@ -74,8 +78,10 @@ type StoreType = {
     AuthGuard,
     ProjectService,
     ShowDataService, 
+    LineTypeService,
     // ENV_PROVIDERS,
-    APP_PROVIDERS
+    APP_PROVIDERS,
+ 
   ]
 })
 export class AppModule {

@@ -17,6 +17,7 @@ namespace lite191.Models
         
         public DbSet<ExternalGrid> ExternalGrids { get; set; }
         public DbSet<OverheadLine> OverheadLines { get; set; }
+        public DbSet<LineGlobal> LinesGlobal { get; set; }
         public DbSet<TwoPhaseTransformer> TwoPhaseTransformers { get; set; }
 
         public DbSet<Bus> Buses { get; set; }
@@ -31,6 +32,7 @@ namespace lite191.Models
             modelBuilder.Entity<TwoPhaseTransformer>().ToTable("TwoPhaseTransformer");
             modelBuilder.Entity<Project>().ToTable("Project");
             modelBuilder.Entity<Bus>().ToTable("Bus");
+            modelBuilder.Entity<LineGlobal>().ToTable("LineGlobal");
 
         }
     }

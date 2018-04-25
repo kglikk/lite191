@@ -22,13 +22,13 @@ export class HomeComponent implements OnInit {
 
     this.profile = JSON.parse(localStorage.getItem('profile'));
 
-    //jeśli jesteśmy zalogowani
+    //jeśli jesteśmy zalogowani przypisz do uzytkownika projekt 3 BUS
     if (this.profile != "null") {
       //this.http.get<Array<Project>>('/api/Project/Get')
       this.projectService.getProjects().map(returnedobjects =>
         returnedobjects.filter(res => res.name == "3 bus")
       ).subscribe(res => {
-        console.log("ID " + res[0].id);
+        
         this.projectService.updateProject(res[0].id, this.profile.sub);
       }
         );

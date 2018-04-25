@@ -16,7 +16,6 @@ export class DeleteProjectFormComponent implements OnInit {
 
   projects: any[];
   deletedProject: any = {};
-  selectedProject: any = [];
   modalRef: BsModalRef;
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
 

@@ -13,63 +13,55 @@ namespace lite191.Controllers
 {
     
     [Route("api/[controller]")]
-    public class OverheadLineController : Controller
+    public class LineGlobalController : Controller
     {
         private readonly DataContext _context;
 
-        public OverheadLineController(DataContext context)
+        public LineGlobalController(DataContext context)
         {
             _context = context;
         }
 
         // GET: api/values
         [HttpGet("[action]")]
-        public IEnumerable<OverheadLine> Get()
+        public IEnumerable<LineGlobal> Get()
         {
-            return _context.OverheadLines;
+            return _context.LinesGlobal;
         }
 
         [HttpGet("[action]/{id}")]
         public IActionResult GetBasedOnProject([FromRoute] int id) // [FromRoute] int projectid [FromRoute] 
         {             
-            var item = _context.OverheadLines.Where(e => e.ProjectId == id);            
-            return new ObjectResult(item);     
-           
-        }
-
-        [HttpGet("[action]/{id}")]
-        public IActionResult GetBasedOnId([FromRoute] int id) // [FromRoute] int projectid [FromRoute] 
-        {             
-            var item = _context.OverheadLines.Where(e => e.ID == id);            
+            var item = _context.LinesGlobal.Where(e => e.ProjectId == id);            
             return new ObjectResult(item);     
            
         }
 
         [HttpGet("[action]/{id}")]            
-        public IActionResult GetBasedOnProjectWithoutColumns([FromRoute] int id) // [FromRoute] int projectid [FromRoute] 
+        public IActionResult GetBasedOnIdWithoutColumns([FromRoute] int id) // [FromRoute] int projectid [FromRoute] 
         {             
-            var item = _context.OverheadLines.Where(e => e.ProjectId == id).Select(e => new { e.Name, e.StartNodeNo, e.EndNodeNo, e.Length, e.UnitaryResistance, e.UnitaryReactance, e.UnitaryCapacitance });
+            var item = _context.LinesGlobal.Where(e => e.ID == id).Select(e => new { e.Name, e.StartNodeNo, e.EndNodeNo, e.Length, e.UnitaryResistance, e.UnitaryReactance, e.UnitaryCapacitance });
                            
             return new ObjectResult(item); 
         }
 
        
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] OverheadLine overheadLine)  
+        public async Task<IActionResult> Post([FromBody] LineGlobal lineGlobal)  
         {  
             if (!ModelState.IsValid)  
             {  
                 return BadRequest(ModelState);  
             }  
   
-            _context.OverheadLines.Add(overheadLine);  
+            _context.LinesGlobal.Add(lineGlobal);  
             try  
             {  
                 await _context.SaveChangesAsync();  
             }  
             catch (DbUpdateException)  
             {  
-                if (OvHeadExists(overheadLine.ID))  
+                if (LineGlobalExists(lineGlobal.ID))  
                 {  
                     return new StatusCodeResult(StatusCodes.Status409Conflict);  
                 }  
@@ -78,29 +70,29 @@ namespace lite191.Controllers
                     throw;  
                 }  
             }  
-            return CreatedAtAction("Get", new { id = overheadLine.ID }, overheadLine);  
+            return CreatedAtAction("Get", new { id = lineGlobal.ID }, lineGlobal);  
         }
 
-        private bool OvHeadExists(int id)  
+        private bool LineGlobalExists(int id)  
         {  
-            return _context.OverheadLines.Any(e => e.ID == id);  
+            return _context.LinesGlobal.Any(e => e.ID == id);  
         }
 
         // PUT: api/OverheadLineController/5  
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] OverheadLine overheadLine)  
+        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] LineGlobal lineGlobal)  
         {  
             if (!ModelState.IsValid)  
             {  
                 return BadRequest(ModelState);  
             }  
   
-            if (id != overheadLine.ID)  
+            if (id != lineGlobal.ID)  
             {  
                 return BadRequest();  
             }  
   
-            _context.Entry(overheadLine).State = EntityState.Modified;  
+            _context.Entry(lineGlobal).State = EntityState.Modified;  
   
             try  
             {  
@@ -108,7 +100,7 @@ namespace lite191.Controllers
             }  
             catch (DbUpdateConcurrencyException)  
             {  
-                if (!OvHeadExists(id))  
+                if (!LineGlobalExists(id))  
                 {  
                     return NotFound();  
                 }  
@@ -130,16 +122,16 @@ namespace lite191.Controllers
                 return BadRequest(ModelState);  
             }  
   
-            OverheadLine overheadLine = await _context.OverheadLines.SingleOrDefaultAsync(m => m.ID == id);  
-            if (overheadLine == null)  
+            LineGlobal lineGlobal = await _context.LinesGlobal.SingleOrDefaultAsync(m => m.ID == id);  
+            if (lineGlobal == null)  
             { 
                 return NotFound();  
             }  
   
-            _context.OverheadLines.Remove(overheadLine);  
+            _context.LinesGlobal.Remove(lineGlobal);  
             await _context.SaveChangesAsync();
               
-            return Ok(overheadLine);  
+            return Ok(lineGlobal);  
         }         
 
 

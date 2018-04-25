@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace lite191.Models
 {
-    public class OverheadLine
+    public class LineGlobal
     {
         public int ID { get; set; }
 
@@ -40,7 +40,9 @@ namespace lite191.Models
         [Required]
         [Display(Name = "Unitary capacitance [μS/km]")]
         public double UnitaryCapacitance { get; set; }
-       // public Project Project {get;set;}        
+       // public Project Project {get;set;} 
+       
+              
 
         public int? ProjectId {get;set;} 
     }

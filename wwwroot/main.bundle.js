@@ -119,6 +119,7 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__core_core_module__ = __webpack_require__("../../../../../src/app/core/core.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__shared_layout_layout_module__ = __webpack_require__("../../../../../src/app/shared/layout/layout.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_ngx_bootstrap_modal__ = __webpack_require__("../../../../ngx-bootstrap/modal/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__services_linetype_service__ = __webpack_require__("../../../../../src/app/services/linetype.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -147,6 +148,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 // Core providers
+
 
 
 
@@ -187,8 +189,9 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_3__services_auth_auth_guard_service__["a" /* AuthGuard */],
             __WEBPACK_IMPORTED_MODULE_4_app_services_project_service__["a" /* ProjectService */],
             __WEBPACK_IMPORTED_MODULE_0__services_show_data_service__["a" /* ShowDataService */],
+            __WEBPACK_IMPORTED_MODULE_17__services_linetype_service__["a" /* LineTypeService */],
             // ENV_PROVIDERS,
-            APP_PROVIDERS
+            APP_PROVIDERS,
         ]
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6__angular_core__["ApplicationRef"], __WEBPACK_IMPORTED_MODULE_13__app_service__["a" /* AppState */]])
@@ -729,6 +732,62 @@ const AUTH_CONFIG = {
     callbackURL: 'http://localhost:5000/callback'
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = AUTH_CONFIG;
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/services/linetype.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LineTypeService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__("../../../common/esm2015/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm2015/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm2015/add/operator/map.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+let LineTypeService = class LineTypeService {
+    constructor(http) {
+        this.http = http;
+    }
+    /*
+  
+    //nazwa projektu jest obserwowana
+    private projectName = new BehaviorSubject<string>("Project not opened");
+    currentProjectName = this.projectName.asObservable();
+  
+    //id projektu jest obserwowana
+    private projectId = new BehaviorSubject<number>(0);
+    currentProjectId = this.projectId.asObservable();
+  
+  
+    changeProjectName(name: string) {
+      this.projectName.next(name);
+    }
+  
+    changeProjectId(id: number) {
+      this.projectId.next(id);
+    } */
+    getLineTypes() {
+        //wczytaj dane z bazy danych
+        return this.http.get('/api/LineGlobal/Get');
+    }
+};
+LineTypeService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
+], LineTypeService);
 
 
 
@@ -1711,7 +1770,7 @@ FullScreenComponent = __decorate([
 /***/ "../../../../../src/app/shared/layout/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header id=\"header\">\n  <div id=\"logo-group\">\n\n    <!-- PLACE YOUR LOGO HERE -->\n    <span id=\"logo\">\n      <img src=\"assets/img/electrisim.svg\" alt=\"Electrisim\"> </span>\n    <!-- END LOGO PLACEHOLDER -->\n\n    <!-- Note: The activity badge color changes when clicked and resets the number to 0\n    Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->\n     <sa-activities *ngIf=\"auth.isAuthenticated()\"></sa-activities> \n  </div>\n\n\n  <sa-recent-projects *ngIf=\"auth.isAuthenticated()\"></sa-recent-projects>\n\n\n\n\n  <!-- pulled right: nav area -->\n  <div class=\"pull-right\">\n\n\n    <sa-collapse-menu></sa-collapse-menu>\n\n    <!-- #MOBILE -->\n    <!-- Top menu profile link : this shows only when top menu is active -->\n    <ul id=\"mobile-profile-img\" class=\"header-dropdown-list hidden-xs padding-5\">\n\n\n      <li class=\"\">\n        <!--\n          \n        <a href=\"#\" class=\"dropdown-toggle no-margin userdropdown\" data-toggle=\"dropdown\">              \n            \n            \n          <img src=\"assets/img/avatars/male.png\" style=\"height: 30px\" alt=\"Electrisim\" class=\"online\"/>\n            \n         \n        \n        </a>\n      -->\n        <ul class=\"dropdown-menu pull-right\">\n          <li>\n            <a (click)=\"(null)\" class=\"padding-10 padding-top-0 padding-bottom-0\">\n              <i class=\"fa fa-cog\"></i> Setting</a>\n          </li>\n          <li class=\"divider\"></li>\n          <li>\n            <a routerLink=\"/app-views/profile\" class=\"padding-10 padding-top-0 padding-bottom-0\">\n              <i class=\"fa fa-user\"></i>\n              <u>P</u>rofile</a>\n          </li>\n          <li class=\"divider\"></li>\n          <li>\n            <a (click)=\"(null)\" class=\"padding-10 padding-top-0 padding-bottom-0\" data-action=\"toggleShortcut\">\n              <i class=\"fa fa-arrow-down\"></i>\n              <u>S</u>hortcut</a>\n          </li>\n          <li class=\"divider\"></li>\n          <li>\n            <a (click)=\"(null)\" class=\"padding-10 padding-top-0 padding-bottom-0\" data-action=\"launchFullscreen\">\n              <i class=\"fa fa-arrows-alt\"></i> Full\n              <u>S</u>creen</a>\n          </li>\n          <li class=\"divider\"></li>\n          <li>\n            <a routerLink=\"/auth/login\" class=\"padding-10 padding-top-5 padding-bottom-5\" data-action=\"userLogout\">\n              <i class=\"fa fa-sign-out fa-lg\"></i>\n              <strong>\n                <u>L</u>ogout</strong>\n            </a>\n          </li>\n        </ul>\n      </li>\n    </ul>\n\n\n    <!-- search mobile button (this is hidden till mobile view port) -->\n    <div id=\"search-mobile\" class=\"btn-header transparent pull-right\">\n      <span>\n        <a (click)=\"toggleSearchMobile()\" title=\"Search\">\n          <i class=\"fa fa-search\"></i>\n        </a>\n      </span>\n    </div>\n    <!-- end search mobile button -->\n\n    <!-- input: search field -->\n    <!--\n    <form #searchForm=\"ngForm\" (ngSubmit)=\"onSubmit()\" class=\"header-search pull-right\">\n      <input id=\"search-fld\" type=\"text\" name=\"param\" required\n             placeholder=\"Find reports and more\">\n      <button type=\"submit\">\n        <i class=\"fa fa-search\"></i>\n      </button>\n      <a id=\"cancel-search-js\" (click)=\"toggleSearchMobile()\" title=\"Cancel Search\"><i class=\"fa fa-times\"></i></a>\n    </form>\n    -->\n    <!-- end input: search field -->\n\n\n    <!-- fullscreen button -->\n    <sa-full-screen></sa-full-screen>\n    <!-- end fullscreen button -->\n\n    <!--\n    <button type=\"button\" class=\"btn btn-primary\"  style=\"margin-left: 14px; margin-top:8px; margin-right: 14px\" *ngIf=\"!auth.isAuthenticated()\" (click)=\"auth.login()\"> Log In </button>\n    <button type=\"button\" class=\"btn\"  style=\"margin-left: 14px; margin-top:8px; margin-right: 14px\" *ngIf=\"auth.isAuthenticated()\" (click)=\"auth.logout()\"> Log Out </button>\n    -->\n\n    <!-- log in/out button -->\n    <div id=\"login\" class=\"btn-header transparent pull-right\">\n      <span>\n        <a title=\"Log in\" *ngIf=\"!auth.isAuthenticated()\" (click)=\"auth.login()\">\n          <i class=\"fa fa-sign-in\"></i>\n        </a> \n      </span>\n    </div>\n    <!-- \n    <div id=\"logout\" class=\"btn-header transparent pull-right\">\n        <span>\n          <a title=\"Log out\" data-action=\"userLogout\" data-logout-msg=\"You can improve your security further after logging out by closing this opened browser\" *ngIf=\"auth.isAuthenticated()\" (click)=\"auth.logout()\">\n            <i class=\"fa fa-sign-out\"></i>\n          </a> \n        </span>\n      </div>\n    -->\n\n    <sa-logout *ngIf=\"auth.isAuthenticated()\"></sa-logout>\n\n    <!-- multiple lang dropdown : find all flags in the flags page  onclick=\"auth.login(); return false;\" -->\n    <sa-language-selector></sa-language-selector>\n    <!-- end multiple lang -->\n\n\n\n\n    <!--<span> <a href=\"\" title=\"Log Out\" data-action=\"userLogout\" *ngIf=\"auth.isAuthenticated()\" (click)=\"auth.logout()\" data-logout-msg=\"You can improve your security further after logging out by closing this opened browser\"><i class=\"fa fa-sign-out\"></i></a> </span>      end log out button -->\n\n\n\n  </div>\n  <!-- end pulled right: nav area -->\n\n</header>"
+module.exports = "<header id=\"header\">\n  <div id=\"logo-group\">\n\n    <!-- PLACE YOUR LOGO HERE -->\n   \n       <a target=\"_blank\" href=\"https://electrisim.com/\">\n        <span id=\"logo\"> <img src=\"assets/img/electrisim.svg\" alt=\"Electrisim\"> </span>\n       </a>\n      \n    <!-- END LOGO PLACEHOLDER -->\n\n    <!-- Note: The activity badge color changes when clicked and resets the number to 0\n    Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->\n     <sa-activities *ngIf=\"auth.isAuthenticated()\"></sa-activities> \n  </div>\n\n\n  <sa-recent-projects *ngIf=\"auth.isAuthenticated()\"></sa-recent-projects>\n\n\n\n\n  <!-- pulled right: nav area -->\n  <div class=\"pull-right\">\n\n\n    <sa-collapse-menu></sa-collapse-menu>\n\n    <!-- #MOBILE -->\n    <!-- Top menu profile link : this shows only when top menu is active -->\n    <ul id=\"mobile-profile-img\" class=\"header-dropdown-list hidden-xs padding-5\">\n\n\n      <li class=\"\">\n        <!--\n          \n        <a href=\"#\" class=\"dropdown-toggle no-margin userdropdown\" data-toggle=\"dropdown\">              \n            \n            \n          <img src=\"assets/img/avatars/male.png\" style=\"height: 30px\" alt=\"Electrisim\" class=\"online\"/>\n            \n         \n        \n        </a>\n      -->\n        <ul class=\"dropdown-menu pull-right\">\n          <li>\n            <a (click)=\"(null)\" class=\"padding-10 padding-top-0 padding-bottom-0\">\n              <i class=\"fa fa-cog\"></i> Setting</a>\n          </li>\n          <li class=\"divider\"></li>\n          <li>\n            <a routerLink=\"/app-views/profile\" class=\"padding-10 padding-top-0 padding-bottom-0\">\n              <i class=\"fa fa-user\"></i>\n              <u>P</u>rofile</a>\n          </li>\n          <li class=\"divider\"></li>\n          <li>\n            <a (click)=\"(null)\" class=\"padding-10 padding-top-0 padding-bottom-0\" data-action=\"toggleShortcut\">\n              <i class=\"fa fa-arrow-down\"></i>\n              <u>S</u>hortcut</a>\n          </li>\n          <li class=\"divider\"></li>\n          <li>\n            <a (click)=\"(null)\" class=\"padding-10 padding-top-0 padding-bottom-0\" data-action=\"launchFullscreen\">\n              <i class=\"fa fa-arrows-alt\"></i> Full\n              <u>S</u>creen</a>\n          </li>\n          <li class=\"divider\"></li>\n          <li>\n            <a routerLink=\"/auth/login\" class=\"padding-10 padding-top-5 padding-bottom-5\" data-action=\"userLogout\">\n              <i class=\"fa fa-sign-out fa-lg\"></i>\n              <strong>\n                <u>L</u>ogout</strong>\n            </a>\n          </li>\n        </ul>\n      </li>\n    </ul>\n\n\n    <!-- search mobile button (this is hidden till mobile view port) -->\n    <div id=\"search-mobile\" class=\"btn-header transparent pull-right\">\n      <span>\n        <a (click)=\"toggleSearchMobile()\" title=\"Search\">\n          <i class=\"fa fa-search\"></i>\n        </a>\n      </span>\n    </div>\n    <!-- end search mobile button -->\n\n    <!-- input: search field -->\n    <!--\n    <form #searchForm=\"ngForm\" (ngSubmit)=\"onSubmit()\" class=\"header-search pull-right\">\n      <input id=\"search-fld\" type=\"text\" name=\"param\" required\n             placeholder=\"Find reports and more\">\n      <button type=\"submit\">\n        <i class=\"fa fa-search\"></i>\n      </button>\n      <a id=\"cancel-search-js\" (click)=\"toggleSearchMobile()\" title=\"Cancel Search\"><i class=\"fa fa-times\"></i></a>\n    </form>\n    -->\n    <!-- end input: search field -->\n\n\n    <!-- fullscreen button -->\n    <sa-full-screen></sa-full-screen>\n    <!-- end fullscreen button -->\n\n    <!--\n    <button type=\"button\" class=\"btn btn-primary\"  style=\"margin-left: 14px; margin-top:8px; margin-right: 14px\" *ngIf=\"!auth.isAuthenticated()\" (click)=\"auth.login()\"> Log In </button>\n    <button type=\"button\" class=\"btn\"  style=\"margin-left: 14px; margin-top:8px; margin-right: 14px\" *ngIf=\"auth.isAuthenticated()\" (click)=\"auth.logout()\"> Log Out </button>\n    -->\n\n    <!-- log in/out button -->\n    <div id=\"login\" class=\"btn-header transparent pull-right\">\n      <span>\n        <a title=\"Log in\" *ngIf=\"!auth.isAuthenticated()\" (click)=\"auth.login()\">\n          <i class=\"fa fa-sign-in\"></i>\n        </a> \n      </span>\n    </div>\n    <!-- \n    <div id=\"logout\" class=\"btn-header transparent pull-right\">\n        <span>\n          <a title=\"Log out\" data-action=\"userLogout\" data-logout-msg=\"You can improve your security further after logging out by closing this opened browser\" *ngIf=\"auth.isAuthenticated()\" (click)=\"auth.logout()\">\n            <i class=\"fa fa-sign-out\"></i>\n          </a> \n        </span>\n      </div>\n    -->\n\n    <sa-logout *ngIf=\"auth.isAuthenticated()\"></sa-logout>\n\n    <!-- multiple lang dropdown : find all flags in the flags page  onclick=\"auth.login(); return false;\" -->\n    <sa-language-selector></sa-language-selector>\n    <!-- end multiple lang -->\n\n\n\n\n    <!--<span> <a href=\"\" title=\"Log Out\" data-action=\"userLogout\" *ngIf=\"auth.isAuthenticated()\" (click)=\"auth.logout()\" data-logout-msg=\"You can improve your security further after logging out by closing this opened browser\"><i class=\"fa fa-sign-out\"></i></a> </span>      end log out button -->\n\n\n\n  </div>\n  <!-- end pulled right: nav area -->\n\n</header>"
 
 /***/ }),
 
@@ -2368,7 +2427,7 @@ MinifyMenuComponent = __decorate([
 /***/ "../../../../../src/app/shared/layout/navigation/navigation.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<aside id=\"left-panel\">\n\n  <!-- User info -->\n  <sa-login-info></sa-login-info>\n  <!-- end user info -->\n\n  <nav>\n    <!-- NOTE: Notice the gaps after each icon usage <i></i>..\n    Please note that these links work a bit different than\n    traditional href=\"\" links. See documentation for details.\n    -->\n\n    <ul saSmartMenu>\n\n      <li routerLinkActive=\"active\">\n        <a routerLink=\"/home\" title=\"Home\">\n          <i class=\"fa fa-lg fa-fw fa-home\"></i>\n          <span class=\"menu-item-parent\">{{'Home' | i18n}}</span>\n        </a>\n      </li>\n\n      <li *ngIf=\"auth.isAuthenticated()\">\n        <a href=\"\">\n          <i class=\"fa fa-lg fa-fw fa-table\"></i>\n          <span class=\"menu-item-parent\">{{'Data' | i18n}}</span>\n        </a>\n        <ul>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/buses\">{{'Buses' | i18n}}</a>\n          </li>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/externalgrids\">{{'External Grids' | i18n}}</a>\n          </li>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/overheadlines\">Overhead Lines</a>\n          </li>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/twophasetransformers\">Two Phase Transformers</a>\n          </li>\n\n        </ul>\n      </li>\n\n      <li *ngIf=\"auth.isAuthenticated()\">\n        <a href=\"\">\n          <i class=\"fa fa-lg fa-fw fa-calculator\"></i>\n          <span class=\"menu-item-parent\">{{'Calculation' | i18n}}</span>\n        </a>\n        <ul>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/calculation/loadflow\">{{'Load Flow' | i18n}}</a>\n          </li>\n        </ul>\n      </li>\n\n\n    </ul>\n  </nav>\n\n  <sa-minify-menu></sa-minify-menu>\n\n</aside>"
+module.exports = "<aside id=\"left-panel\">\n\n  <!-- User info -->\n  <sa-login-info></sa-login-info>\n  <!-- end user info -->\n\n  <nav>\n    <!-- NOTE: Notice the gaps after each icon usage <i></i>..\n    Please note that these links work a bit different than\n    traditional href=\"\" links. See documentation for details.\n    -->\n\n    <ul saSmartMenu>\n\n      <li routerLinkActive=\"active\">\n        <a routerLink=\"/home\" title=\"Home\">\n          <i class=\"fa fa-lg fa-fw fa-home\"></i>\n          <span class=\"menu-item-parent\">{{'Home' | i18n}}</span>\n        </a>\n      </li>\n   \n\n      <li *ngIf=\"auth.isAuthenticated()\">\n        <a href=\"\">\n          <i class=\"fa fa-lg fa-fw fa-table\"></i>\n          <span class=\"menu-item-parent\">{{'Data' | i18n}}</span>\n        </a>\n        <ul>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/buses\">{{'Buses' | i18n}}</a>\n          </li>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/externalgrids\">{{'External Grids' | i18n}}</a>\n          </li>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/overheadlines\">{{'Power Lines' | i18n}}</a>\n          </li>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/data/twophasetransformers\">{{'Two-Winding Transformers' | i18n}}</a>\n          </li>\n\n        </ul>\n      </li>\n\n      <li *ngIf=\"auth.isAuthenticated()\">\n        <a href=\"\">\n          <i class=\"fa fa-lg fa-fw fa-calculator\"></i>\n          <span class=\"menu-item-parent\">{{'Calculation' | i18n}}</span>\n        </a>\n        <ul>\n          <li routerLinkActive=\"active\">\n            <a routerLink=\"/calculation/loadflow\">{{'Load Flow' | i18n}}</a>\n          </li>\n        </ul>\n      </li>\n      \n\n      <li routerLinkActive=\"active\">\n        <a target=\"_blank\" href=\"https://electrisim.com/page-knowledgebase.html\" title=\"Documentation\">\n          <i class=\"fa fa-lg fa-fw fa-book\"></i>\n             <span class=\"menu-item-parent\">{{'Documentation' | i18n}}</span>\n        </a>\n      </li>\n\n      \n\n\n    </ul>\n  </nav>\n\n  <sa-minify-menu></sa-minify-menu>\n\n</aside>"
 
 /***/ }),
 

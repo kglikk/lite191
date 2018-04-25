@@ -20,20 +20,33 @@ namespace lite191.Controllers
     {
 
         // GET: api/values
-        //  [HttpGet("[action]")]
-        [Route("api/LoadFlow/Get")]
-        public IEnumerable<LoadFlowResult> Get()
+        // [HttpGet("[action]")]
+        [Route("api/LoadFlow/Calculate/{id:int}")]
+        public IEnumerable<LoadFlowResult> Get([FromRoute] int id)
         {           
-            //-------------Load Flow Algorithm---------------
+            //-------------Load Flow Algorithm---------------            
             //-----obliczenia wykonywane sa na jednostkach wzglednych
-            List<int> buses = new List<int>();
-            int N_bus = 0; //liczba szyn/w�z��w
-            int N_ser = 0 ; //liczba element�w ga��ziowych
+            List<int> buses = new List<int>();            
+            int N_bus; //liczba szyn/wezlow
+            int N_ser; //liczba elementow galeziowych
             double Sb = 100; //MVA moc bazowa
-            double Ub = 60; //kV napiecie bazowe
+            double Ub = 60; //kV napiecie bazowe 
             double Zb = Math.Pow(Ub,2)/Sb; //Ohm impedancja bazowa
             double Yb = 1/Zb; //admitancja bazowa
             double Ib = Sb/(Math.Sqrt(3)*Ub)*1000; //A - prad bazowy
+           
+            //obliczenia wykonuj na danym projekcie
+            ExternalGrid[] extgrids = _context.ExternalGrids.Where(m => m.ProjectId == id).ToArray();  
+            OverheadLine[] ovheads = _context.OverheadLines.Where(m => m.ProjectId == id).ToArray();  
+            TwoPhaseTransformer[] twophasetrafo = _context.TwoPhaseTransformers.Where(m => m.ProjectId == id).ToArray();  
+            Bus[] busbars = _context.Buses.Where(m => m.ProjectId == id).ToArray();  
+            /* 
+            if (project == null)  
+            {  
+                return NotFound();  
+            }
+            */
+  
 
             //Jesli nie istnieja tego typu elementy to oznacza sie numer szyny rowny 1 oraz wartosc zero w drugiej kolumnie.
             int[] shunts = new int[] { 1, 0 }; //elementy poprzeczne
@@ -41,20 +54,19 @@ namespace lite191.Controllers
             //int N_sh = 1; // liczba element�w poprzecznych 
 
             //pomocnicze tablice
-            List<int> Is = new List<int>(); //numery szyn poczatkowych
+            List<int> Is = new List<int>(); //numery szyn poczatkowych           
             List<int> Js = new List<int>(); // numery szyn koncowych
-
-            List<string> Itype = new List<string>();
+            List<string> Itype = new List<string>();           
             List<double> Pb = new List<double>();
             List<double> Qb = new List<double>();
 
             //Complex c1 = new Complex(1.2, 2.0);
 
             //ilosc elementow podluznych
-            N_ser = _context.OverheadLines.Count() + _context.TwoPhaseTransformers.Count();
+            N_ser = ovheads.Count() + twophasetrafo.Count();
 
             //okresl ilosc szyn
-            foreach (var row in _context.ExternalGrids)
+            foreach (var row in extgrids)
             {
                 if (!buses.Contains(row.NodeNo))
                 {
@@ -66,7 +78,7 @@ namespace lite191.Controllers
                 Pb.Add((row.ActivePower.HasValue) ? row.ActivePower.Value/Sb : 0);
                 Qb.Add((row.ReactivePower.HasValue) ? row.ReactivePower.Value/Sb : 0);
             }
-            foreach (var row in _context.OverheadLines)
+            foreach (var row in ovheads)
             {
                 if (!buses.Contains(row.StartNodeNo))
                 {
@@ -88,8 +100,9 @@ namespace lite191.Controllers
             
             //uformuj macierz z elementami podluznymi - Series_pu
             Complex[,] Series_pu  = new Complex[N_ser, 5];
+            
             int irow = 0;
-            foreach (var row in _context.OverheadLines)
+            foreach (var row in ovheads)
             {
                 Complex RX = new Complex(row.UnitaryResistance * row.Length, row.UnitaryReactance * row.Length);
                 Complex B = new Complex(0, row.UnitaryCapacitance * row.Length);
@@ -101,7 +114,7 @@ namespace lite191.Controllers
                 irow++;               
             }            
              
-            foreach (var row in _context.TwoPhaseTransformers){
+            foreach (var row in twophasetrafo){
                 Complex RX = new Complex((row.LoadLossesRated * row.HVVoltageRated * row.HVVoltageRated)/(1000*row.ApparentPowerRated*row.ApparentPowerRated), row.ShortCircuitVoltage/100); //zastanow sie jak wyliczac parametry transformatora 
                 Complex B = new Complex(0, 0);
                 Series_pu[irow, 0] = row.HVNodeNo;
@@ -114,7 +127,7 @@ namespace lite191.Controllers
             double?[] sigma = new double?[N_bus];
 
             //uformuj macierz - buses
-            foreach (var row in _context.ExternalGrids)
+            foreach (var row in extgrids)
             {              
                 sigma[row.NodeNo] = row.VoltageAngle; //row.ID-1
             }
@@ -123,7 +136,7 @@ namespace lite191.Controllers
             double[] Upu = new double[N_bus];
 
             //uformuj macierz - U 
-            foreach (var row in _context.Buses)
+            foreach (var row in busbars)
             {
                 Upu[row.NodeNo] = row.NominalVoltage/Ub; //row.ID-1                
             }
@@ -206,7 +219,7 @@ namespace lite191.Controllers
 
             var list = new LoadFlows();
 
-            list.Results = new List<LoadFlowResult>();
+            list.Results = new List<LoadFlowResult>();            
             for (int z = 0; z <= (N_bus - 1); z++)
             {
                 var a = new LoadFlowResult() { busNo = z, resultU = U[z], resultUpu = Upu[z], resultSigma = normalSigmaDegrees[z], resultPloss = Ploss[z], resultQloss = Qloss[z], resultIload_i = IloadI[z].Magnitude, resultIload_j = IloadJ[z].Magnitude, busNoStart = busStart_I[z], busNoEnd = busEnd_J[z]   };
@@ -219,14 +232,15 @@ namespace lite191.Controllers
         class LoadFlows : IEnumerable<LoadFlowResult>
         {
             public List<LoadFlowResult> Results { get; set; }
+            
 
             public IEnumerator<LoadFlowResult> GetEnumerator()
-            {
+            {                
                 return Results.GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()
-            {
+            {                
                 return Results.GetEnumerator();
             }
         }
@@ -366,7 +380,8 @@ namespace lite191.Controllers
                 }
            result = summation.Sum();            
            return result;
-        }                
+        }
+
         static double summationJacobi_fqkVk(int k, int N_bus, Complex[,] Ybus, double[] U, double[] normalSigma)
         {
             double[] summation = new double[N_bus];
@@ -389,6 +404,7 @@ namespace lite191.Controllers
             result = summation.Sum();
             return result;            
         }
+
         static double summationJacobi_fqkSigmak(int k, int N_bus, Complex[,] Ybus, double[] U, double[] normalSigma)
         {
             double[] summation = new double[N_bus];
@@ -410,10 +426,10 @@ namespace lite191.Controllers
                 for (int i = 0; i <= (N_bus - 1); i++)
                 {
                 summation[i] = x[k] * x[i] * Ybus[k, i].Magnitude * Math.Cos(Ybus[k, i].Phase + y[i] - y[k]);
-                System.Diagnostics.Debug.WriteLine("Math.Cos(Ybus[k, i].Phase) " + Math.Cos(Ybus[k, i].Phase)); 
+                //System.Diagnostics.Debug.WriteLine("Math.Cos(Ybus[k, i].Phase) " + Math.Cos(Ybus[k, i].Phase)); 
             }
 
-        result = summation.Sum();
+            result = summation.Sum();
             return result;
         }
 
@@ -637,8 +653,7 @@ namespace lite191.Controllers
             }
             return result; // wartosc bezwzgledna
         }
-
-        
+                
         static int[] busStartI(int N_bus, List<int> Is)
         {
               int[] result = new int[N_bus];
@@ -660,14 +675,6 @@ namespace lite191.Controllers
                result[m] = Js[m];
             }
             return result;
-
         }
-
-
-
-        
-
-        
-       
     }
 }

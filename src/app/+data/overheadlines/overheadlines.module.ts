@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -7,18 +8,25 @@ import { OverheadLinesComponent } from "app/+data/overheadlines/overheadlines.co
 import {SmartadminModule} from "app/shared/smartadmin.module";
 
 import {AgGridModule} from 'ag-grid-angular/main';
+import { ChildMessageRenderer } from './child-message-renderer.component';
+import { SelectLineTypeFormComponent } from '../../components/select-line-type-form/select-line-type-form.component';
+
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     SmartadminModule,
-    AgGridModule.withComponents([]),
-    OverheadLinesRoutingModule
+    AgGridModule.withComponents([ChildMessageRenderer]),
+    OverheadLinesRoutingModule,
+    ReactiveFormsModule
+    //AgGridModule.withComponents([ChildMessageRenderer]),
     
   ],
   declarations: [
-    OverheadLinesComponent
+    OverheadLinesComponent,
+    ChildMessageRenderer,
+    SelectLineTypeFormComponent
   ],
   providers: [
     { provide: 'BASE_URL', useFactory: getBaseUrl }
